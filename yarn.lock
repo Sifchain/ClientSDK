@@ -93,7 +93,7 @@
     "tslib" "2.2.0"
     "uuid" "8.3.2"
 
-"@nestjs/core@7.6.17":
+"@nestjs/core@^7.6.17", "@nestjs/core@7.6.17":
   "integrity" "sha512-dH7PGDj1dvBfOYgxJlxh54vdnFFSLst7+Spg3E7Jpo+n11Ht5Ee5mTjSzXieRVfFba/sI3NIHF/N1stn36bU9w=="
   "resolved" "https://registry.npmjs.org/@nestjs/core/-/core-7.6.17.tgz"
   "version" "7.6.17"
@@ -136,10 +136,10 @@
     "rxjs" "7.0.1"
     "tslib" "1.13.0"
 
-"@types/node@^12.11.5":
-  "integrity" "sha512-1x8W5OpxPq+T85OUsHRP6BqXeosKmeXRtjoF39STcdf/UWLqUsoehstZKOi0CunhVqHG17AyZgpj20eRVooK6A=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-12.20.13.tgz"
-  "version" "12.20.13"
+"@types/node@^15.3.1":
+  "integrity" "sha512-weaeiP4UF4XgF++3rpQhpIJWsCTS4QJw5gvBhQu6cFIxTwyxWIe3xbnrY/o2lTCQ0lsdb8YIUDUvLR4Vuz5rbw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-15.3.1.tgz"
+  "version" "15.3.1"
 
 "@types/node@11.11.6":
   "integrity" "sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ=="
@@ -676,9 +676,8 @@
   "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
   "version" "6.1.0"
   dependencies:
-    "universalify" "^2.0.0"
-  optionalDependencies:
     "graceful-fs" "^4.1.6"
+    "universalify" "^2.0.0"
 
 "libsodium-wrappers@^0.7.6":
   "integrity" "sha512-9HaAeBGk1nKTRFRHkt7nzxqCvnkWTjn1pdjKgcUnZxj0FyOP4CnhgFhMdrFfgNsukijBGyBLpP2m2uKT1vuWhQ=="
@@ -895,19 +894,19 @@
   "resolved" "https://registry.npmjs.org/run-async/-/run-async-2.4.1.tgz"
   "version" "2.4.1"
 
-"rxjs@^6.0.0", "rxjs@7.0.1":
-  "integrity" "sha512-wViQ4Vgps1xJwqWIBooMNN44usCSthL7wCUl4qWqrVjhGfWyVyXcxlYzfDKkJKACQvZMTOft/jJ3RkbwK1j9QQ=="
-  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.0.1.tgz"
-  "version" "7.0.1"
-  dependencies:
-    "tslib" "~2.1.0"
-
-"rxjs@^6.6.3", "rxjs@^6.6.6":
+"rxjs@^6.0.0", "rxjs@^6.6.3", "rxjs@^6.6.6":
   "integrity" "sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   "version" "6.6.7"
   dependencies:
     "tslib" "^1.9.0"
+
+"rxjs@7.0.1":
+  "integrity" "sha512-wViQ4Vgps1xJwqWIBooMNN44usCSthL7wCUl4qWqrVjhGfWyVyXcxlYzfDKkJKACQvZMTOft/jJ3RkbwK1j9QQ=="
+  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.0.1.tgz"
+  "version" "7.0.1"
+  dependencies:
+    "tslib" "~2.1.0"
 
 "safe-buffer@^5.0.1", "safe-buffer@^5.1.0", "safe-buffer@^5.1.2", "safe-buffer@^5.2.0", "safe-buffer@~5.2.0":
   "integrity" "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
@@ -934,7 +933,6 @@
 
 "sifchain@file:gen/api":
   "resolved" "file:gen/api"
-  "version" "1.0.0"
   dependencies:
     "axios" "^0.21.1"
 
@@ -1096,7 +1094,7 @@
   "resolved" "https://registry.npmjs.org/type-fest/-/type-fest-0.6.0.tgz"
   "version" "0.6.0"
 
-"typescript@^3.6.4", "typescript@^3.9.9", "typescript@>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev", "typescript@>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 4.0.0-dev":
+"typescript@^3.9.9":
   "integrity" "sha512-kdMjTiekY+z/ubJCATUPlRDl39vXYiMV9iyeMuEuXZh2we6zz80uovNN2WlAxmmdE/Z/YQe+EbOEXB5RHEED3w=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-3.9.9.tgz"
   "version" "3.9.9"

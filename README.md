@@ -11,10 +11,11 @@ The code is provided as an example of participating on sifchain transactions. Us
 
 Client-side SDK leverages openapi 3.0 swagger file to auto-generate function stubs to invoke the REST API with appropriate parameters.
 
-1. Pull the latest published openapi spec and generates the new function stubs.
+1. Install the node modules. `npm install`
+2. Pull the latest published openapi spec and generates the new function stubs.
    `npm run nuke-api`
 
 Each of the transactions require downloading of unsigned txn and appropriate sifnode url along with the wallet key in the environment variable.
 
-2. Causes the implemented code to be compiled into javascript and runs the index.js which drives the main application.
+3. Causes the implemented code to be compiled into javascript and runs the index.js which drives the main application.
    `npm run start`
