@@ -1,7 +1,7 @@
 {
   "scripts": {
     "nuke-api": "rm -rf gen/api && openapi-generator-cli generate -i swagger.yaml -g typescript-axios -o gen/api --config api.json && cd gen/api && npm install && npm run build",
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && cp sample.env ./dist && node dist/index.js"
   },
   "dependencies": {
     "@cosmjs/crypto": "^0.25.3",
