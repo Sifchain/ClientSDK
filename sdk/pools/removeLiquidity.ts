@@ -1,11 +1,11 @@
-import { SigningCosmosClient, coin, coins } from '@cosmjs/launchpad'
-import { setupWallet } from '../../wallet'
+import { SigningCosmosClient } from '@cosmjs/launchpad'
+import { setupWallet, fee, broadcastUrl } from '../../wallet'
 
 export const removeLiquidity = async (
-    signer: string,
-    externalAsset: string,
-    wBasisPoints: number,
-    asymmetry: number
+  signer: string,
+  externalAsset: string,
+  wBasisPoints: number,
+  asymmetry: number
 ) => {
   try {
     const wallet = await setupWallet()
@@ -14,20 +14,14 @@ export const removeLiquidity = async (
     const sender = firstAccount.address
 
     const unsigned_txn = {
-        type: 'clp/RemoveLiquidity',
-        value: {
-            signer,
-            external_asset: externalAsset,
-            w_basis_points: wBasisPoints,
-            asymmetry
-        },
-      }
-    const fee = {
-        amount: coins(150000, 'rowan'),
-        gas: '300000',
+      type: 'clp/RemoveLiquidity',
+      value: {
+        signer,
+        external_asset: externalAsset,
+        w_basis_points: wBasisPoints,
+        asymmetry,
+      },
     }
-      
-    const broadcastUrl = 'https://api-testnet.sifchain.finance'
     const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
     const txnStatus = await client.signAndBroadcast([unsigned_txn], fee)
     return txnStatus

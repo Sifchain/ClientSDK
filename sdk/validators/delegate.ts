@@ -1,7 +1,7 @@
-import { SigningCosmosClient, coin, coins } from '@cosmjs/launchpad'
-import { setupWallet } from '../../wallet'
-import config from '../../config'
-import { ValidatorsApi } from 'sifchain'
+import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
+import { setupWallet, fee, broadcastUrl } from '../../wallet'
+//import config from '../../config'
+//import { ValidatorsApi } from 'sifchain'
 
 export const delegate = async (amount: number, toValidator: string) => {
   try {
@@ -15,25 +15,18 @@ export const delegate = async (amount: number, toValidator: string) => {
     //console.log(balances)
 
     // call the validatorAPI
-    const sifApi = new ValidatorsApi(config.apiConfig)
+    //    const sifApi = new ValidatorsApi(config.apiConfig)
 
     // const retObj = await sifApi.addDelegation(toValidator, amount.toString(), sender)
 
-    
     const unsigned_txn = {
-        type: 'cosmos-sdk/MsgDelegate',
-        value: {
-          delegator_address: sender,
-          validator_address: toValidator,
-          amount: coin(amount, 'rowan'),
-        },
-      }
-    const fee = {
-        amount: coins(150000, 'rowan'),
-        gas: '300000',
-      }
-    const lpcUrl = 'https://api-testnet.sifchain.finance'
-    
+      type: 'cosmos-sdk/MsgDelegate',
+      value: {
+        delegator_address: sender,
+        validator_address: toValidator,
+        amount: coin(amount, 'rowan'),
+      },
+    }
 
     // Construct the required parameters
 
@@ -41,7 +34,7 @@ export const delegate = async (amount: number, toValidator: string) => {
     // const fee = retObj.data['fee']
     // const lpcUrl = retObj.data['sifnodeAddr']
 
-    const client = new SigningCosmosClient(lpcUrl, sender, wallet)
+    const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
     // const txn_amount = Number(unsigned_txn.value.amount)
 
     // unsigned_txn.value.amount = coin(txn_amount, 'rowan')
