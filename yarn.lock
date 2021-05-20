@@ -136,6 +136,11 @@
     "rxjs" "7.0.1"
     "tslib" "1.13.0"
 
+"@types/node@^12.11.5":
+  "integrity" "sha512-1x8W5OpxPq+T85OUsHRP6BqXeosKmeXRtjoF39STcdf/UWLqUsoehstZKOi0CunhVqHG17AyZgpj20eRVooK6A=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-12.20.13.tgz"
+  "version" "12.20.13"
+
 "@types/node@^15.3.1":
   "integrity" "sha512-weaeiP4UF4XgF++3rpQhpIJWsCTS4QJw5gvBhQu6cFIxTwyxWIe3xbnrY/o2lTCQ0lsdb8YIUDUvLR4Vuz5rbw=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-15.3.1.tgz"
@@ -933,6 +938,7 @@
 
 "sifchain@file:gen/api":
   "resolved" "file:gen/api"
+  "version" "1.0.0"
   dependencies:
     "axios" "^0.21.1"
 
@@ -1094,7 +1100,7 @@
   "resolved" "https://registry.npmjs.org/type-fest/-/type-fest-0.6.0.tgz"
   "version" "0.6.0"
 
-"typescript@^3.9.9":
+"typescript@^3.6.4", "typescript@^3.9.9":
   "integrity" "sha512-kdMjTiekY+z/ubJCATUPlRDl39vXYiMV9iyeMuEuXZh2we6zz80uovNN2WlAxmmdE/Z/YQe+EbOEXB5RHEED3w=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-3.9.9.tgz"
   "version" "3.9.9"
