@@ -4,7 +4,8 @@ A package of client software for developing client applications that connect to 
 
 # Pre-requisites
 
-Sifchain SDK is written in typescript and it is used in parallel with the REST API to enable off-line signing and broadcast transactions to a designated node operator.
+**Sifchain SDK is written in typescript and it is used in parallel with the REST API to enable off-line signing and broadcast transactions to a designated node operator.**
+
 The code is provided is an example of an implementation that you can use to develop your own client application. It is highly advised for users to put extra care in ensuring the wallet mnemonic secrets and running environment is protected.
 
 ## How to use the SDK
@@ -33,6 +34,12 @@ Available client methods:
 - [`delegate`](#delegate)
 - [`undelegate`](#undelegate)
 
+### Wallet
+
+Available wallet methods:
+
+- [`setupWallet`](#setupWallet)
+
 ### Client Methods
 
 - `swap(sentAsset, receivedAsset, sentAmount, minReceivingAmount)`: Swap tokens on Sifchain <a id='swap' />
@@ -55,6 +62,6 @@ Available client methods:
   - `amount`: The amount of Rowan to undelegate
   - `toValidator`: The validator to undelegate from.
 
-### Wallet
+### Wallet Methods
 
-- `setupWallet()`: Imports wallet from .env config
+- `setupWallet()`: Imports wallet from .env config <a id='setupWallet' />
