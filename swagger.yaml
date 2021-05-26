@@ -1,14 +1,11 @@
-openapi: 3.0.0
+openapi: 3.0.0 
 info:
   title: Sichain API
-  version: 0.0.3
+  version: 0.0.4
 servers:
-- url: https://virtserver.swaggerhub.com/Sifchain-DEX-API/Sifchain-API/0.0.2
-  description: SwaggerHub API Auto Mocking
-- url: https://ry9jlsztsi.execute-api.us-east-2.amazonaws.com/prod
+# Added by API Auto Mocking Plugin
+- url: https://i7q5doxsoi.execute-api.us-east-2.amazonaws.com/beta
   description: AWS API Gateway
-- url: http://localhost:8080
-  description: SwaggerHub API Local
 tags:
 - name: Pools
   description: Contains all endpoints for pool details
@@ -138,135 +135,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/PoolShareResponse'
       x-swagger-router-controller: Pools                  
-  /pool/create:
-    get:
-      tags:
-      - Pools
-      summary: The pool to create.
-      operationId: createPool
-      parameters:
-      - name: key
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAssetSymbol
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: rowanAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successful Pool Response
-          content:
-            application/json:
-              schema:
-                type: string
-      x-swagger-router-controller: Pools                  
-  /pool/addLiquidity:
-    get:
-      tags:
-      - Pools
-      summary: Add liquidity to a specified pool.
-      operationId: addLiquidity
-      parameters:
-      - name: from
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: symbol
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: nativeAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successful Add Liquidity Response
-          content:
-            application/json:
-              schema:
-                type: string
-      x-swagger-router-controller: Pools                  
-  /pool/removeliquidity:
-    get:
-      tags:
-      - Pools
-      summary: Remove liquidity from a specified pool.
-      operationId: removeliquidity
-      parameters:
-      - name: from
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: symbol
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: wBasis
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: asymmetry
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: Successful Removed Liquidity Response
-          content:
-            application/json:
-              schema:
-                type: string
-      x-swagger-router-controller: Pools                  
   /validator:
     get:
       tags:
@@ -371,244 +239,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/getTotalStakedByDelegatorsResponse'
       x-swagger-router-controller: Validators                  
-  /validator/delegate:
-    get:
-      tags:
-      - Validators
-      operationId: addDelegation
-      parameters:
-      - name: validatorAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: amount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point adds delegation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/addDelegationResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/claimAllRewards:
-    get:
-      tags:
-      - Validators
-      operationId: claimAllRewards
-      parameters:
-      - name: address
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point claims all rewards
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/claimAllRewardsResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/setWithdrawAddress:
-    get:
-      tags:
-      - Validators
-      operationId: setWithdrawAddress
-      parameters:
-      - name: toAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point changes wihdraw address.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/setWithdrawAddressResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/unDelegate:
-    get:
-      tags:
-      - Validators
-      operationId: unDelegate
-      parameters:
-      - name: validatorAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: amount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point undelegates tokens.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unDelegateResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/reDelegate:
-    get:
-      tags:
-      - Validators
-      operationId: reDelegate
-      parameters:
-      - name: validatorAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: amount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point redelegates tokens.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/reDelegateResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/withdrawRewards:
-    get:
-      tags:
-      - Validators
-      operationId: withdrawRewards
-      parameters:
-      - name: validatorAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: amount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point withdraws rewards.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/withdrawRewardsResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/unJail:
-    get:
-      tags:
-      - Validators
-      operationId: unJail
-      parameters:
-      - name: moniker
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point is to un jail.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unJailResponse'
-      x-swagger-router-controller: Validators                  
-  /validator/setCommissionRate:
-    get:
-      tags:
-      - Validators
-      operationId: setCommissionRate
-      parameters:
-      - name: rate
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: validatorAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point is to change commission rate.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/setCommissionRateResponse'
-      x-swagger-router-controller: Validators                  
   /peggy/peggedAssets:
     get:
       tags:
@@ -632,76 +262,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/getPeggedAssetsResponse'
       x-swagger-router-controller: Peggy                  
-  /peggy/pegAssets:
-    get:
-      tags:
-      - Peggy
-      operationId: pegAssets
-      parameters:
-      - name: key
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAssetSymbol
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: number
-      responses:
-        "200":
-          description: This end point post to peg Assets.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/pegAssetsResponse'
-      x-swagger-router-controller: Peggy                  
-  /peggy/unPegAssets:
-    get:
-      tags:
-      - Peggy
-      operationId: unPegAssets
-      parameters:
-      - name: key
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAssetSymbol
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: externalAmount
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: number
-      responses:
-        "200":
-          description: This end point post to Unpeg Assets.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/unPegAssetsResponse'
-      x-swagger-router-controller: Peggy                  
   /asset/{symbol}:
     get:
       tags:
@@ -723,55 +283,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetTokenValueResponse'
       x-swagger-router-controller: Assets
-  /asset/{symbol}/circulatingSupply:
+  /asset/totalSupply:
     get:
       tags:
       - Assets
-      operationId: getCirculatingSupply
-      parameters:
-      - name: symbol
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      operationId: getTotalSupply
       responses:
         "200":
-          description: This end point gets value of circulating Rowan info.
+          description: This end point gets total supply of Rowan.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/getCirculatingSupplyResponse'
       x-swagger-router-controller: Assets
-  /asset/swapToken:
-    get:
-      tags:
-      - Assets
-      operationId: swapToken
-      parameters:
-      - name: fromAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: toAddress
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: This end point is to swap tokens.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/swapTokenResponse'
-      x-swagger-router-controller: Assets
+      
   /network:
     get:
       tags:
@@ -785,6 +310,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/networkResponse'
       x-swagger-router-controller: Network
+    
+  /dailyPrice:
+    get:
+      tags:
+      - Network
+      operationId: getDailyPrice
+      responses:
+        "200":
+          description: This end point gets daily OHLC ticker data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/networkResponse'
+      x-swagger-router-controller: Network
+      
+  /historicalPrice/{symbol}:
+    get:
+      tags:
+      - Network
+      operationId: getHistoricalPrice
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: This end point gets daily OHLC ticker data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/networkResponse'
+      x-swagger-router-controller: Network
+  
 components:
   schemas:
     getPoolsResponse:
@@ -941,68 +503,6 @@ components:
           type: string
       example:
         amountDelegated: '0.80082819046101150206595775671303272247314453125'
-    addDelegationResponse:
-      type: object
-      properties:
-        delegate:
-          type: string
-          example: Delegation has been added.
-      example:
-        delegate: delegate
-    claimAllRewardsResponse:
-      type: object
-      properties:
-        rewards:
-          type: string
-          example: Rewards have been claimed.
-      example:
-        rewards: rewards
-    setWithdrawAddressResponse:
-      type: object
-      properties:
-        withdraw:
-          type: string
-          example: Withdraw address has been changed.
-      example:
-        withdraw: withdraw
-    unDelegateResponse:
-      type: object
-      properties:
-        undelegate:
-          type: string
-          example: Tokens have been un delegated.
-      example:
-        undelegate: undelegate
-    reDelegateResponse:
-      type: object
-      properties:
-        redelegate:
-          type: string
-          example: Tokens have been redelegated.
-      example:
-        redelegate: redelegate
-    withdrawRewardsResponse:
-      type: object
-      properties:
-        amount:
-          type: string
-      example:
-        amount: '0.80082819046101150206595775671303272247314453125'
-    unJailResponse:
-      type: object
-      properties:
-        unjail:
-          type: string
-          example: Node has been unjailed.
-      example:
-        unjail: unjail
-    setCommissionRateResponse:
-      type: object
-      properties:
-        amount:
-          type: string
-      example:
-        amount: '0.80082819046101150206595775671303272247314453125'
     getPeggedAssetsResponse:
       type: object
       properties:
@@ -1012,32 +512,12 @@ components:
         value:
           type: string
           example: '120.5'
-    pegAssetsResponse:
-      type: object
-      properties:
-        peg:
-          type: string
-          example: Asset has been Pegged.
-    unPegAssetsResponse:
-      type: object
-      properties:
-        peg:
-          type: string
-          example: Asset has been Unpegged.
     getCirculatingSupplyResponse:
       type: object
       properties:
         circulatingSupply:
           type: string
           example: '120'
-    swapTokenResponse:
-      type: object
-      properties:
-        token:
-          type: string
-          example: Tokens have been swapped.
-      example:
-        token: token
     networkResponse:
       type: object
       properties:
@@ -1088,4 +568,5 @@ components:
           type: string
       example:
         symbol: ROWAN
-        balance: '12345556'        
+        balance: '12345556'
+x-aws-api-id: 'i7q5doxsoi'
