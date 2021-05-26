@@ -6,6 +6,8 @@ A package of client software for developing client applications that connect to 
 
 **Sifchain SDK is written in typescript and it is used in parallel with the REST API to enable off-line signing and broadcast transactions to a designated node operator.**
 
+**Note:** A collection of Sifchain public REST endpoints can be found [here in the docs](https://app.swaggerhub.com/apis/Sifchain-DEX-API/Sifchain-API/0.0.4).
+
 The code is provided is an example of an implementation that you can use to develop your own client application. It is highly advised for users to put extra care in ensuring the wallet mnemonic secrets and running environment is protected.
 
 ## How to use the SDK
