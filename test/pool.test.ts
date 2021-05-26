@@ -25,7 +25,7 @@ describe('test remove liquidity feature', () => {
 })
 
 describe('test swap feature', () => {
-  it("should fail", async () => {
+  it('should fail', async () => {
     const sentAsset = 'sentAsset'
     const receivedAsset = 'receivedAsset'
     const sentAmount = 1234
@@ -37,9 +37,9 @@ describe('test swap feature', () => {
 })
 
 describe('test getPools feature', () => {
-  it("should get pools", async () => {
+  it('should get pools', async () => {
     const res = await sifAPI.getPools()
-    
+
     // test first pool for properties
     expect(res.data[0]).toHaveProperty('externalAsset')
     expect(res.data[0]).toHaveProperty('externalAsset')
@@ -48,9 +48,9 @@ describe('test getPools feature', () => {
 })
 
 describe('test getLiquidityProvider feature', () => {
-  it("should get a liquidity provider", async () => {
+  it('should get a liquidity provider', async () => {
     // fist get all ceth liquidity provider addresses
-    const symbol = 'ceth'  
+    const symbol = 'ceth'
     const res = await sifAPI.getLiquidityProviders(symbol)
     // pick fist liquidity provider address
     const liquidityProviderAddress = res.data[0].address
@@ -62,11 +62,10 @@ describe('test getLiquidityProvider feature', () => {
     expect(lpRes.data).toHaveProperty('height')
   })
 
-  it("should fail to get a liquidity provider with invalid address", async () => {
-    const symbol = 'ceth'  
+  it('should fail to get a liquidity provider with invalid address', async () => {
+    const symbol = 'ceth'
     const res = await sifAPI.getLiquidityProvider(symbol, 'invalid_address')
-    console.log(res.data);
-    // =>
-    // { name: 'not_found' }
+    expect(res.data['name']).toBe('not_found')
   })
 })
+
