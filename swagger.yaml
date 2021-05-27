@@ -4,7 +4,7 @@ info:
   version: 0.0.4
 servers:
 # Added by API Auto Mocking Plugin
-- url: https://i7q5doxsoi.execute-api.us-east-2.amazonaws.com/beta
+- url: https://data.sifchain.finance/beta
   description: AWS API Gateway
 tags:
 - name: Pools
