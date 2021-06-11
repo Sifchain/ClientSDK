@@ -169,7 +169,7 @@ async function main() {
 main()
 ```
 
-## Wallet Methos
+## Wallet Methods
 
 Imports wallet from .env config
 
