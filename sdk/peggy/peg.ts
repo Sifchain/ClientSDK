@@ -1,7 +1,7 @@
 import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
 import { setupWallet, fee, broadcastUrl } from '../../wallet'
 
-export const peg = async (amount: number, toValidator: string) => {
+export const peg = async (amount: number, symbol: string) => {
     const wallet = await setupWallet()
     const [firstAccount] = await wallet.getAccounts()
 
