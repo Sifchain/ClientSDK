@@ -10,6 +10,7 @@
     "@cosmjs/launchpad": "^0.25.3",
     "@types/node": "^15.3.1",
     "dotenv": "^9.0.2",
+    "ethers": "^5.3.1",
     "sifchain": "file:gen/api"
   },
   "devDependencies": {

@@ -1,5 +1,8 @@
 import { Secp256k1HdWallet, coins } from '@cosmjs/launchpad'
 import config from './config'
+import { ethers } from 'ethers'
+
+export const ethWallet = ethers.Wallet.fromMnemonic(config.mnemonic)
 
 export const setupWallet = async () => await Secp256k1HdWallet.fromMnemonic(config.mnemonic, config.sifwallet)
 
