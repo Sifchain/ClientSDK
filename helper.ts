@@ -3,7 +3,7 @@ exports.isEthAddress = async function (ethAddress) {
     return regex.test(ethAddress)
 }
 
-exports.isSifAddress = async function (ethAddress) {
+exports.isSifAddress = async function (sifAddress) {
     const regex = new RegExp('/^sif[a-zA-Z0-9]{39}$/')
-    return regex.test(ethAddress)
+    return regex.test(sifAddress)
 }
