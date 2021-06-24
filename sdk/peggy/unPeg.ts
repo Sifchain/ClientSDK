@@ -11,6 +11,7 @@ export const unPeg = async (symbol: string, amount: number) => {
   const [firstAccount] = await wallet.getAccounts()
   const sifAddress = Web3.utils.utf8ToHex(firstAccount.address)
   
+    // cETH -> ETH
     if (symbol.toLocaleLowerCase() === 'ceth') {
 
       const tokenContractAddress = '0x0000000000000000000000000000000000000000'
