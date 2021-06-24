@@ -2,23 +2,54 @@ import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
 import { setupWallet, fee, broadcastUrl, ethWallet } from '../../wallet'
 import { BridgeBankABI } from '../../BridgeBank'
 import Web3 from 'web3'
+import { bridgeBank, bridgeToken } from '../../lib/contracts'
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA_URL));
-const bridgeBankAddress = 'sif1l3dftf499u4gvdeuuzdl2pgv4f0xdtnuuwlzp8'
-const bridgeBankContractAddress = '0x80E6A5D9a855D855AD6Fc9912d685b8dFdE24104'
-const bridgeBankContracts = new web3.eth.Contract(JSON.parse(BridgeBankABI), bridgeBankContractAddress)
 
+export const unPeg = async (symbol: string, amount: number) => {
+  const wallet = await setupWallet()
+  const [firstAccount] = await wallet.getAccounts()
+  const sifAddress = Web3.utils.utf8ToHex(firstAccount.address)
+  
+    if (symbol.toLocaleLowerCase() === 'ceth') {
 
-export const unPeg = async () => {
+      const tokenContractAddress = '0x0000000000000000000000000000000000000000'
 
-    const recipient = 'sifAddress'
-    const intendedRecipient = 'lol' // address of the user receiving tokens
-    const symbol = 'ceth' // '// symbol of the token to be sent
-    const amount = 1000
+      const tx = {
+        from: ethWallet.address,
+        value: amount,
+        gas: 150000,
+      }
+      
+      await bridgeBank().methods
+        .burn(sifAddress, tokenContractAddress, amount)
+        .send(tx)
+        .on("transactionHash", (hash: string) => {
+          console.log("burnToSifchain: bridgeBankContract.burn TX", hash);
+        })
+        .on("error", (err: any) => {
+          console.log("burnToSifchain: bridgeBankContract.burn ERROR", err);
+        })
 
-    // These two functions deal with giving users tokens on ethereum in exchange for their sifchain assets or pegged assets.
-    const unlockPromise = bridgeBankContracts.methods.unlock(recipient, symbol, amount).call()
-    const mintPromise = bridgeBankContracts.methods.mint(intendedRecipient, amount).call()
+      const ethereumChainId = await web3.eth.net.getId();
 
-    const [ unlockRes, mintRes ] = await Promise.all([unlockPromise, mintPromise])
+      const unsigned_txn = {
+        type: "ethbridge/MsgBurn",
+        value: {
+            amount: "2000000000000000000",
+            ceth_amount: "70000000000000000",
+            cosmos_sender: firstAccount.address,
+            symbol: "ceth",
+            ethereum_chain_id: `${ethereumChainId}`,
+            ethereum_receiver: ethWallet.address,
+        },
+      }
+    
+      const client = new SigningCosmosClient(broadcastUrl, firstAccount.address, wallet)
+      const txnStatus = await client.signAndBroadcast([unsigned_txn], fee)
+    
+      return txnStatus
+
+  }
+
 }
