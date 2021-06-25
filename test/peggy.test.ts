@@ -5,7 +5,7 @@ import config from '../config'
 describe('test peg feature', () => {
   it("should peg", async () => {
     try {
-      const res = await peg('eth', 1)
+      const res = await peg('eth', 100)
       console.log(res);
 
     } catch (error) {

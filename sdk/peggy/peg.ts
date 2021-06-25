@@ -1,7 +1,7 @@
 import { setupWallet, fee, broadcastUrl, ethWallet } from '../../wallet'
 import Web3 from 'web3'
 import config from '../../config'
-import { isERC20 } from '../../lib/helper'
+import { getToken } from '../../lib/helper'
 import { bridgeBank, bridgeToken } from '../../lib/contracts'
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA_URL))
@@ -24,15 +24,17 @@ export const peg = async (symbol: string, amount: number) => {
     gas: 150000,
   }
   
+  ////////////////////////
+  // ETH -> cETH
+  ////////////////////////
   if (symbol.toLocaleLowerCase() === 'eth') {
-    // ETH -> cETH
+
     // lock
     // the lock function is called for ethereum native assets
     
-    const tokenContractAddress = '0x0000000000000000000000000000000000000000'
     // Solidity: function lock(bytes _recipient, address _token, uint256 _amount)
     await bridgeBank().methods
-      .lock(sifAddress, tokenContractAddress, amount)
+      .lock(sifAddress, config.ethContractAddress, amount)
       .send(tx)
       .on("transactionHash", (hash: string) => {
         return "lockToSifchain: bridgeBankContract.lock TX" + hash
@@ -43,34 +45,39 @@ export const peg = async (symbol: string, amount: number) => {
 
   }
 
-  // if (symbol.toLocaleLowerCase() === 'rowan') {
-  //   // approve and burn
-  //   const token = '0x' // tokenAddress, 0x if ethereum
+  ////////////////////////
+  // eRowan -> Rowan
+  ////////////////////////
+  if (symbol.toLocaleLowerCase() === 'erowan') {
+    // approve and burn
+    const token = '0x' // tokenAddress, 0x if ethereum
 
-  //   // params: argv.ethereum_address, argv.bridgebank_address, requestParameters
-  //   const allowance = await bridgeToken().methods.allowance(ethWallet.address).call()
-  //   if (BigInt(allowance) > BigInt(amount)) {
-  //     // argv.bridgebank_address, sifchainUtilities.SOLIDITY_MAX_INT, requestParameters
-  //     const approveResponse = await bridgeToken().methods.approve().call()
-  //   }
+    // params: argv.ethereum_address, argv.bridgebank_address, requestParameters
+    const allowance = await bridgeToken().methods
+      .allowance(ethWallet.address, config.bridgeBankAddress)
+      .call()
 
-  //   // The burn function is called for cosmos native assets
-  //   const res = bridgeBank().methods.burn(sifAddress, token, amount).call()
-  // }
+    if (BigInt(allowance) > BigInt(amount)) {
+      // argv.bridgebank_address, sifchainUtilities.SOLIDITY_MAX_INT, requestParameters
+      const approveResponse = await bridgeToken().methods.approve(config.bridgeBankAddress, amount).call()
+    }
+    // Burn eRowan to Rowan
+    const res = bridgeBank().methods.burn(sifAddress, token, amount).send(tx)
+  }
 
-  // if (isERC20(symbol)) {
-  //   // approve and lock
-  //   // the lock function is called for ethereum native assets
-  //   const token = '0x0' // tokenAddress, 0x if ethereum
+  ////////////////////////
+  // ERC20 -> cToken
+  ////////////////////////
+  if (getToken(symbol)) {
+    // approve and lock
 
-  //   // params: argv.ethereum_address, argv.bridgebank_address, requestParameters
-  //   const allowance = await bridgeToken().methods.allowance(ethWallet.address).call()
-  //   if (BigInt(allowance) > BigInt(amount)) {
-  //     // argv.bridgebank_address, sifchainUtilities.SOLIDITY_MAX_INT, requestParameters
-  //     const approveResponse = await bridgeToken().methods.approve().call()
-  //   }
+    const tokenAddress = getToken(symbol).contract_address
 
-  //   // Solidity: function lock(bytes _recipient, address _token, uint256 _amount)
-  //   const lockPromise = bridgeBank().methods.lock(sifAddress, token, amount).call()
-  // }
+    const allowance = await bridgeToken().methods.allowance(ethWallet.address, config.bridgeBankAddress).call()
+    if (BigInt(allowance) > BigInt(amount)) {
+      const approveResponse = await bridgeToken().methods.approve(config.bridgeBankAddress, amount).call()
+    }
+
+    const lockPromise = bridgeBank().methods.lock(sifAddress, tokenAddress, amount).call()
+  }
 }

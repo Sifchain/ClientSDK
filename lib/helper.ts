@@ -1,3 +1,5 @@
+const ethTokens = require('../ethereum_tokens.json')
+
 export const isEthAddress = async function (ethAddress) {
   const regex = new RegExp('/^0x[a-fA-F0-9]{40}$/')
   return regex.test(ethAddress)
@@ -8,7 +10,6 @@ export const isSifAddress = async function (sifAddress) {
   return regex.test(sifAddress)
 }
 
-export const isERC20 = function (symbol: string): boolean {
-  //@TODO
-  return true
+export const getToken = function (symbol: string) {
+  return ethTokens.find(token => token.symbol === symbol)
 }
