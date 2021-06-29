@@ -50,7 +50,7 @@ export const peg = async (symbol: string, amount: number) => {
   ////////////////////////
   if (symbol.toLocaleLowerCase() === 'erowan') {
     // approve and burn
-    const token = '0x' // tokenAddress, 0x if ethereum
+    const tokenAddress = '0xec017ac9003d2906fc855258040a56c671a315d6' //https://ropsten.etherscan.io/token/0xec017ac9003d2906fc855258040a56c671a315d6
 
     // params: argv.ethereum_address, argv.bridgebank_address, requestParameters
     const allowance = await bridgeToken().methods
@@ -62,22 +62,21 @@ export const peg = async (symbol: string, amount: number) => {
       const approveResponse = await bridgeToken().methods.approve(config.bridgeBankAddress, amount).call()
     }
     // Burn eRowan to Rowan
-    const res = bridgeBank().methods.burn(sifAddress, token, amount).send(tx)
+    const res = bridgeBank().methods.burn(sifAddress, tokenAddress, amount).send(tx)
   }
 
   ////////////////////////
   // ERC20 -> cToken
   ////////////////////////
-  if (getToken(symbol)) {
+  const token = getToken(symbol)
+  if (token) {
     // approve and lock
-
-    const tokenAddress = getToken(symbol).contract_address
 
     const allowance = await bridgeToken().methods.allowance(ethWallet.address, config.bridgeBankAddress).call()
     if (BigInt(allowance) > BigInt(amount)) {
       const approveResponse = await bridgeToken().methods.approve(config.bridgeBankAddress, amount).call()
     }
 
-    const lockPromise = bridgeBank().methods.lock(sifAddress, tokenAddress, amount).call()
+    const lockPromise = bridgeBank().methods.lock(sifAddress, token.contract_address, amount).call()
   }
 }
