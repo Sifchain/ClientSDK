@@ -1,14 +1,11 @@
 import Web3 from 'web3'
 import config from '../config'
 
-const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA_URL))
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
 
 export const bridgeBank = function () {
-  const { BridgeBankABI } = require('../BridgeBank')
-  return new web3.eth.Contract(
-    JSON.parse(BridgeBankABI),
-    config.bridgeBankAddress
-  )
+  const abi = require('../BridgeBank.json')
+  return new web3.eth.Contract(abi, config.bridgeBankAddress)
 }
 
 export const bridgeToken = function () {

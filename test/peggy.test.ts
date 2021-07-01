@@ -1,17 +1,67 @@
 import { peg } from '../sdk/peggy/peg'
 // import { unPeg } from '../sdk/peggy/unPeg'
 import config from '../config'
+import {
+  Secp256k1HdWallet,
+  SigningCosmosClient,
+  coins,
+  LcdClient,
+} from "@cosmjs/launchpad";
+import { setupWallet } from '../wallet'
+
 
 describe('test peg feature', () => {
-  it("should peg", async () => {
+
+  it("should peg eth => cEth", async () => {
     try {
-      const res = await peg('eth', 100)
-      console.log(res);
+      const sifWallet = await setupWallet()
+      const [{ address }] = await sifWallet.getAccounts()
+      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+
+      // check balance before peg
+      const accountBefore = await client.getAccount(address)
+      const cEthBalanceBefore = accountBefore.balance.find(b => b.denom === 'ceth').amount
+
+      const pegAmount = '3000000000000000001'
+      const pegRes = await peg('eth', pegAmount)
+      console.log({ pegRes })
+
+      // check balance after peg
+      const accountAfter = await client.getAccount(address)
+      const cEthBalanceAfter = accountAfter.balance.find(b => b.denom === 'ceth').amount
+
+      console.log({ cEthBalanceBefore, cEthBalanceAfter });
+
+      // expect(BigInt(cEthBalanceBefore) + BigInt(pegAmount)).toEqual(BigInt(cEthBalanceAfter))
 
     } catch (error) {
       console.log(error)
 
     }
+  })
+
+  it('should peg eRowan => Rowan.', async () => {
+
+    const sifWallet = await setupWallet()
+    const [{ address }] = await sifWallet.getAccounts()
+    const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+    // check balance before peg
+    const accountBefore = await client.getAccount(address)
+    const rowanBalanceBefore = accountBefore.balance
+      .find(b => b.denom === 'rowan').amount
+
+    const pegAmount = '10000000000000000001'
+    const pegRes = await peg('erowan', pegAmount)
+    console.log({ pegRes })
+
+    // check balance after peg
+    const accountAfter = await client.getAccount(address)
+    const rowanBalanceAfter = accountAfter.balance
+      .find(b => b.denom === 'rowan').amount
+
+    console.log({ rowanBalanceBefore, rowanBalanceAfter });
+
+
   })
 })
 
