@@ -8,11 +8,11 @@ import {
   LcdClient,
 } from "@cosmjs/launchpad";
 import { setupWallet } from '../wallet'
-
+import { advanceBlock } from '../lib/helper'
 
 describe('test peg feature', () => {
 
-  it("should peg eth => cEth", async () => {
+  it.only("should peg eth => cEth", async () => {
     try {
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
@@ -26,6 +26,8 @@ describe('test peg feature', () => {
       const pegRes = await peg('eth', pegAmount)
       console.log({ pegRes })
 
+      await advanceBlock(101)
+
       // check balance after peg
       const accountAfter = await client.getAccount(address)
       const cEthBalanceAfter = accountAfter.balance.find(b => b.denom === 'ceth').amount
@@ -38,7 +40,7 @@ describe('test peg feature', () => {
       console.log(error)
 
     }
-  })
+  }, 999999)
 
   it('should peg eRowan => Rowan.', async () => {
 

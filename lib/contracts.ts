@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import config from '../config'
 
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
 export const bridgeBank = function () {
   const abi = require('../BridgeBank.json')
