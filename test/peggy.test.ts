@@ -21,12 +21,12 @@ describe('test peg feature', () => {
       // check balance before peg
       const accountBefore = await client.getAccount(address)
       const cEthBalanceBefore = accountBefore.balance.find(b => b.denom === 'ceth').amount
-
+      
       const pegAmount = '3000000000000000001'
       const pegRes = await peg('eth', pegAmount)
       console.log({ pegRes })
 
-      await advanceBlock(101)
+      await advanceBlock(1001)
 
       // check balance after peg
       const accountAfter = await client.getAccount(address)
@@ -34,7 +34,7 @@ describe('test peg feature', () => {
 
       console.log({ cEthBalanceBefore, cEthBalanceAfter });
 
-      // expect(BigInt(cEthBalanceBefore) + BigInt(pegAmount)).toEqual(BigInt(cEthBalanceAfter))
+      expect(BigInt(cEthBalanceBefore) + BigInt(pegAmount)).toEqual(BigInt(cEthBalanceAfter))
 
     } catch (error) {
       console.log(error)
