@@ -1,5 +1,5 @@
 import { peg } from '../sdk/peggy/peg'
-// import { unPeg } from '../sdk/peggy/unPeg'
+import { unPeg } from '../sdk/peggy/unPeg'
 import config from '../config'
 import {
   Secp256k1HdWallet,
@@ -7,12 +7,14 @@ import {
   coins,
   LcdClient,
 } from "@cosmjs/launchpad";
-import { setupWallet } from '../wallet'
+import { setupWallet, ethWallet } from '../wallet'
 import { advanceBlock } from '../lib/helper'
+import Web3 from 'web3'
+const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
 describe('test peg feature', () => {
 
-  it.only("should peg eth => cEth", async () => {
+  it("should peg eth => cEth", async () => {
     try {
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
@@ -49,12 +51,16 @@ describe('test peg feature', () => {
     const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
     // check balance before peg
     const accountBefore = await client.getAccount(address)
+    console.log({ accounts: accountBefore.balance });
+    
     const rowanBalanceBefore = accountBefore.balance
       .find(b => b.denom === 'rowan').amount
 
     const pegAmount = '10000000000000000001'
     const pegRes = await peg('erowan', pegAmount)
     console.log({ pegRes })
+
+    await advanceBlock(2011)
 
     // check balance after peg
     const accountAfter = await client.getAccount(address)
@@ -63,17 +69,33 @@ describe('test peg feature', () => {
 
     console.log({ rowanBalanceBefore, rowanBalanceAfter });
 
+    expect(BigInt(rowanBalanceBefore) + BigInt(pegAmount)).toEqual(BigInt(rowanBalanceAfter))
 
   })
 })
 
-// describe('test unPeg feature', () => {
-//   it("should unPeg", async () => {
-//     try {
-//       await unPeg(10000, 'ceth')
-//     } catch (error) {
-//       console.log(error)
+describe('test unPeg feature', () => {
+  
+  it("should peg cEth => eth", async () => {
+    try {
 
-//     }
-//   })
-// })
+      const sifWallet = await setupWallet()
+      const [{ address }] = await sifWallet.getAccounts()
+      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+          //  check balance before peg
+      const accountBefore = await client.getAccount(address)
+      console.log({ accounts: accountBefore.balance })
+      const ethBalance = await web3.eth.getBalance(ethWallet.address)
+      console.log({ ethBalance })
+      await unPeg('ceth', '2000000000000000000')
+      await advanceBlock(2011)
+
+      const ethBalanceAfter = await web3.eth.getBalance(ethWallet.address)
+      console.log({ ethBalance, ethBalanceAfter })
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  })
+})
