@@ -21,7 +21,7 @@ export const peg = async (symbol: string, amount: string) => {
   ////////////////////////
   // ETH -> cETH
   ////////////////////////
-  if (symbol.toLocaleLowerCase() === 'eth') {
+  if (symbol.toLowerCase() === 'eth') {
 
     const tx = {
       // nonce: await web3.eth.getTransactionCount(ethWallet.address),
@@ -40,7 +40,7 @@ export const peg = async (symbol: string, amount: string) => {
   ////////////////////////
   // eRowan -> Rowan
   ////////////////////////
-  if (symbol.toLocaleLowerCase() === 'erowan') {
+  if (symbol.toLowerCase() === 'erowan') {
     // approve and burn
 
     const tx0 = {

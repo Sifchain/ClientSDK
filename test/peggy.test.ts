@@ -8,7 +8,7 @@ import {
   LcdClient,
 } from "@cosmjs/launchpad";
 import { setupWallet, ethWallet } from '../wallet'
-import { advanceBlock } from '../lib/helper'
+import { advanceBlock, sleep } from '../lib/helper'
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
@@ -76,7 +76,7 @@ describe('test peg feature', () => {
 
 describe('test unPeg feature', () => {
   
-  it("should peg cEth => eth", async () => {
+  it.only("should peg cEth => eth", async () => {
     try {
 
       const sifWallet = await setupWallet()
@@ -88,7 +88,33 @@ describe('test unPeg feature', () => {
       const ethBalance = await web3.eth.getBalance(ethWallet.address)
       console.log({ ethBalance })
       await unPeg('ceth', '2000000000000000000')
+      
       await advanceBlock(2011)
+
+      const ethBalanceAfter = await web3.eth.getBalance(ethWallet.address)
+      console.log({ ethBalance, ethBalanceAfter })
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  })
+
+  it("should peg rowan => eRowan", async () => {
+    try {
+
+      const sifWallet = await setupWallet()
+      const [{ address }] = await sifWallet.getAccounts()
+      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+          //  check balance before peg
+      const accountBefore = await client.getAccount(address)
+      console.log({ accounts: accountBefore.balance })
+      const ethBalance = await web3.eth.getBalance(ethWallet.address)
+      console.log({ ethBalance })
+      await unPeg('rowan', '2000000000000000000')
+      await advanceBlock(52)
+
+      await sleep(2000)
 
       const ethBalanceAfter = await web3.eth.getBalance(ethWallet.address)
       console.log({ ethBalance, ethBalanceAfter })
