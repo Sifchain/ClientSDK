@@ -3,9 +3,8 @@ import { exportToken } from '../sdk/peggy/exportToken'
 import config from '../config'
 import { SigningCosmosClient } from "@cosmjs/launchpad";
 import { setupWallet, ethWallet } from '../wallet'
-import { advanceBlock, sleep } from '../lib/helper'
-import Web3 from 'web3'
-const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
+import { advanceBlock, sleep, getWeb3 } from '../lib/helper'
+const web3 = getWeb3()
 
 describe('test peg feature', () => {
 
