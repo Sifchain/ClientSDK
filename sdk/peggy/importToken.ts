@@ -1,13 +1,13 @@
-import { setupWallet, fee, broadcastUrl, ethWallet } from '../../wallet'
+import { setupWallet, ethWallet } from '../../wallet'
 import Web3 from 'web3'
 import config from '../../config'
-import { getToken, approveSpend } from '../../lib/helper'
+import { getToken, approveSpend, getWeb3 } from '../../lib/helper'
 import { bridgeBank } from '../../lib/contracts'
 
-const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
+const web3 = getWeb3()
 
 // import
-export const peg = async (symbol: string, amount: string) => {
+export const importToken = async (symbol: string, amount: string) => {
 
   const ethBalance = await web3.eth.getBalance(ethWallet.address)
   console.log({ ethBalance })
@@ -16,19 +16,18 @@ export const peg = async (symbol: string, amount: string) => {
   const [sifAccount] = await sifWallet.getAccounts()
   const sifAddress = Web3.utils.utf8ToHex(sifAccount.address)
 
-  const gas = (await web3.eth.getBlock("latest")).gasLimit
+  const gas = (await web3.eth.getBlock("latest")).gasLimit // 150000
 
   ////////////////////////
   // ETH -> cETH
   ////////////////////////
   if (symbol.toLowerCase() === 'eth') {
-
+    // lock
     const tx = {
       // nonce: await web3.eth.getTransactionCount(ethWallet.address),
       to: config.bridgeBankAddress,
       // from: ethWallet.address,
       value: amount,
-      // gas: 150000, //example
       gas,
       data: bridgeBank().methods.lock(sifAddress, config.ethContractAddress, amount).encodeABI(),
     }
@@ -42,12 +41,6 @@ export const peg = async (symbol: string, amount: string) => {
   ////////////////////////
   if (symbol.toLowerCase() === 'erowan') {
     // approve and burn
-
-    const tx0 = {
-      from: ethWallet.address,
-      value: 0, // don't know why this is zero for burn to sifchain
-      gas,
-    }
 
     await approveSpend(ethWallet.address, amount, gas)
 
@@ -66,23 +59,28 @@ export const peg = async (symbol: string, amount: string) => {
   ////////////////////////
   // ERC20 -> cToken
   ////////////////////////
-  // const token = getToken(symbol)
-  // if (token) {
-  //   // approve and lock
+  const token = getToken(`c${symbol}`)
+  if (token) {
+    // approve and lock
 
-  //   await approveSpend(ethWallet.address, amount, gas)
+    // amount of eth?
+    await approveSpend(ethWallet.address, amount, gas)
 
-  //   const tx = {
-  //     from: ethWallet.address,
-  //     value: 0, // don't know why this is zero for burn to sifchain
-  //     gas: 150000,
-  //   }
+    const tx = {
+      // nonce: await web3.eth.getTransactionCount(ethWallet.address),
+      to: config.bridgeBankAddress,
+      // from: ethWallet.address,
+      value: amount,
+      // gas: 150000, //example
+      gas,
+      data: bridgeBank().methods.lock(sifAddress, token.address, amount).encodeABI(),
+    }
 
-  //   const lockPromise = bridgeBank().methods
-  //     .lock(sifAddress, token.contract_address, amount)
-  //     .call()
-  // }
+    const signed = await web3.eth.accounts.signTransaction(tx, ethWallet.privateKey);
+    return await web3.eth.sendSignedTransaction(signed.rawTransaction)
 
-  // //else
-  // return `${symbol} token not in white list.`
+  }
+
+  //else
+  return `${symbol} token not in white list.`
 }

@@ -1,12 +1,16 @@
 import { bridgeBank, bridgeToken } from '../lib/contracts'
 import config from '../config'
-const ethTokens = require('../ethereum_tokens.json')
+// const ethTokens = require('../ethereum_tokens.json')
+const ethTokens = require('../assets.sifchain.localnet.json')
 const { time } = require("@openzeppelin/test-helpers")
 import { ethWallet } from '../wallet'
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
+export const getWeb3 = function() {
+  return web3
+}
 
 export const isEthAddress = async function (ethAddress) {
   const regex = new RegExp('/^0x[a-fA-F0-9]{40}$/')
@@ -37,7 +41,7 @@ export const approveSpend = async function (ethAddress: string, amount: string, 
       allowance,
     }
   }
-
+  
   const tx = {
     // nonce: await web3.eth.getTransactionCount(ethWallet.address),
     to: config.bridgeTokenAddress,
@@ -53,6 +57,8 @@ export const approveSpend = async function (ethAddress: string, amount: string, 
    console.log({ approveRes })
    return
 }
+
+// test helpers
 
 beforeEach(async () => {
   require("@openzeppelin/test-helpers/configure")({
