@@ -1,9 +1,21 @@
-import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
+// import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
 import { setupWallet, fee, broadcastUrl } from '../../wallet'
+import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing';
+import {
+  assertIsBroadcastTxSuccess,
+  SigningStargateClient,
+  StargateClient,
+} from '@cosmjs/stargate';
 //import config from '../../config'
 //import { ValidatorsApi } from 'sifchain'
 
-export const delegate = async (amount: number, toValidator: string) => {
+// A message type auto-generated from .proto files using ts-proto. @cosmjs/stargate ships some
+// common types but don't rely on those being available. You need to set up your own code generator
+// for the types you care about. How this is done should be documented, but is not yet:
+// https://github.com/cosmos/cosmjs/issues/640
+import { MsgDelegate } from '@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/tx'
+
+export const delegate = async (amount: string, toValidator: string) => {
   const wallet = await setupWallet()
   const [firstAccount] = await wallet.getAccounts()
 
@@ -12,41 +24,40 @@ export const delegate = async (amount: number, toValidator: string) => {
   // Get Balance
   //const balances = await client.getAccount()
   //console.log(balances)
+  
+  const client = await SigningStargateClient.connectWithSigner(
+    broadcastUrl,
+    wallet,
+    // { registry: registry } // what's this?
+    );
 
-  // call the validatorAPI
-  //    const sifApi = new ValidatorsApi(config.apiConfig)
-
-  // const retObj = await sifApi.addDelegation(toValidator, amount.toString(), sender)
-
-  const unsigned_txn = {
-    type: 'cosmos-sdk/MsgDelegate',
-    value: {
-      delegator_address: sender,
-      validator_address: toValidator,
-      amount: coin(amount, 'rowan'),
+  const msg = MsgDelegate.encode({
+    delegatorAddress: sender,
+    validatorAddress: toValidator,
+    amount: {
+      denom: 'rowan',
+      amount,
     },
+  })
+  const msgAny = {
+    typeUrl: msgDelegateTypeUrl,
+    value: msg,
   }
+  const fee = {
+    amount: [
+      {
+        denom: 'rowan',
+        amount: '150000',
+      },
+    ],
+    gas: '300000',
+  }    
 
-  // Construct the required parameters
-
-  // const unsigned_txn = retObj.data['unsigned_txn']
-  // const fee = retObj.data['fee']
-  // const lpcUrl = retObj.data['sifnodeAddr']
-
-  const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
-  // const txn_amount = Number(unsigned_txn.value.amount)
-
-  // unsigned_txn.value.amount = coin(txn_amount, 'rowan')
-
-  //let fee = retObj.data['fee']
-  // const fee_amount = Number(fee.amount)
-
-  // fee.amount = coins(fee_amount, 'rowan')
-  //const signed_txn = await client.sign([unsigned_txn], fee)
-
-  //console.log('Signed Transaction:  ', signed_txn)
-
-  const txnStatus = await client.signAndBroadcast([unsigned_txn], fee)
-
-  return txnStatus
+  const result = await client.signAndBroadcast(
+    firstAccount.address,
+    [msgAny],
+    fee,
+    // memo
+  );
+  assertIsBroadcastTxSuccess(result);
 }
