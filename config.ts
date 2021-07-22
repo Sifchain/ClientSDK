@@ -8,7 +8,7 @@ export default {
 	sifwallet: {
 		prefix: 'sif',
 	},
-	apiConfig: new Configuration({ basePath: process.env.REST_API }),
+	// apiConfig: new Configuration({ basePath: process.env.REST_API }),
 	// bridgeBankAddress: '0x80E6A5D9a855D855AD6Fc9912d685b8dFdE24104', //testNet
 	// bridgeBankAddress: '0x6CfD69783E3fFb44CBaaFF7F509a4fcF0d8e2835', //testNet
 	// bridgeBankAddress: '0x96DC6f02C66Bbf2dfbA934b8DafE7B2c08715A73', // devNet
