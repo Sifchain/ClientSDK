@@ -1,23 +1,31 @@
-import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
-import { setupWallet, fee, broadcastUrl } from '../../wallet'
+import { SigningCosmosClient, coin } from '@cosmjs/launchpad';
+import { SigningStargateClient } from '@cosmjs/stargate';
+import { setupWallet, fee, broadcastUrl } from '../../wallet';
 
 export const undelegate = async (amount: number, toValidator: string) => {
-  const wallet = await setupWallet()
-  const [firstAccount] = await wallet.getAccounts()
+	const wallet = await setupWallet();
+	const [firstAccount] = await wallet.getAccounts();
 
-  const sender = firstAccount.address
+	const sender = firstAccount.address;
 
-  const unsigned_txn = {
-    type: 'cosmos-sdk/MsgUndelegate',
-    value: {
-      delegator_address: sender,
-      validator_address: toValidator,
-      amount: coin(amount, 'rowan'),
-    },
-  }
+	const unsigned_txn = {
+		typeUrl: 'cosmos-sdk/MsgUndelegate',
+		value: {
+			delegator_address: sender,
+			validator_address: toValidator,
+			amount: coin(amount, 'rowan'),
+		},
+	};
+	const client = await SigningStargateClient.connectWithSigner(
+		broadcastUrl,
+		wallet
+	);
+	// const
+	const txnStatus = await client.signAndBroadcast(
+		wallet.getAccounts()[0].address,
+		[unsigned_txn],
+		fee
+	);
 
-  const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
-  const txnStatus = await client.signAndBroadcast([unsigned_txn], fee)
-
-  return txnStatus
-}
+	return txnStatus;
+};
