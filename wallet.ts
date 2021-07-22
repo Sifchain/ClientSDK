@@ -16,4 +16,4 @@ export const fee = {
 	gas: '300000',
 };
 
-export const broadcastUrl = 'https://api-devnet-042.sifchain.finance';
+export const broadcastUrl = 'https://rpc-devnet-042.sifchain.finance';

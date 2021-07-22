@@ -25,7 +25,7 @@ export const removeLiquidity = async (
 			},
 		};
 		const client = await SigningStargateClient.connectWithSigner(
-			config.sifnodeLcdApi,
+			broadcastUrl,
 			wallet
 		);
 		// const client = new SigningCosmosClient(broadcastUrl, sender, wallet)

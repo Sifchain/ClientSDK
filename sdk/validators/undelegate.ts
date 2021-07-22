@@ -1,5 +1,8 @@
 import { SigningCosmosClient, coin } from '@cosmjs/launchpad';
-import { SigningStargateClient } from '@cosmjs/stargate';
+import {
+	MsgUndelegateEncodeObject,
+	SigningStargateClient,
+} from '@cosmjs/stargate';
 import { setupWallet, fee, broadcastUrl } from '../../wallet';
 
 export const undelegate = async (amount: number, toValidator: string) => {
@@ -8,11 +11,11 @@ export const undelegate = async (amount: number, toValidator: string) => {
 
 	const sender = firstAccount.address;
 
-	const unsigned_txn = {
-		typeUrl: 'cosmos-sdk/MsgUndelegate',
+	const unsigned_txn: MsgUndelegateEncodeObject = {
+		typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
 		value: {
-			delegator_address: sender,
-			validator_address: toValidator,
+			delegatorAddress: sender,
+			validatorAddress: toValidator,
 			amount: coin(amount, 'rowan'),
 		},
 	};

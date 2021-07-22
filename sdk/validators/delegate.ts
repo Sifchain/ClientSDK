@@ -3,18 +3,16 @@ import { setupWallet, fee, broadcastUrl } from '../../wallet';
 import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing';
 import {
 	assertIsBroadcastTxSuccess,
-	MsgUndelegateEncodeObject,
+	MsgDelegateEncodeObject,
 	SigningStargateClient,
-	StargateClient,
 } from '@cosmjs/stargate';
-//import config from '../../config'
-//import { ValidatorsApi } from 'sifchain'
 
 // A message type auto-generated from .proto files using ts-proto. @cosmjs/stargate ships some
 // common types but don't rely on those being available. You need to set up your own code generator
 // for the types you care about. How this is done should be documented, but is not yet:
 // https://github.com/cosmos/cosmjs/issues/640
 import { MsgDelegate } from '@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/tx';
+import { StdFee } from '@cosmjs/launchpad';
 
 export const delegate = async (amount: string, toValidator: string) => {
 	const wallet = await setupWallet();
@@ -22,17 +20,12 @@ export const delegate = async (amount: string, toValidator: string) => {
 
 	const sender = firstAccount.address;
 
-	// Get Balance
-	//const balances = await client.getAccount()
-	//console.log(balances)
-
 	const client = await SigningStargateClient.connectWithSigner(
 		broadcastUrl,
 		wallet
-		// { registry: registry } // what's this?
 	);
 
-	const msg = {
+	const msg: MsgDelegate = {
 		delegatorAddress: sender,
 		validatorAddress: toValidator,
 		amount: {
@@ -40,11 +33,11 @@ export const delegate = async (amount: string, toValidator: string) => {
 			amount,
 		},
 	};
-	const msgDelegate: MsgUndelegateEncodeObject = {
-		typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+	const msgDelegate: MsgDelegateEncodeObject = {
+		typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
 		value: msg,
 	};
-	const fee = {
+	const fee: StdFee = {
 		amount: [
 			{
 				denom: 'rowan',
@@ -58,7 +51,7 @@ export const delegate = async (amount: string, toValidator: string) => {
 		firstAccount.address,
 		[msgDelegate],
 		fee
-		// memo
 	);
-	assertIsBroadcastTxSuccess(result);
+	await assertIsBroadcastTxSuccess(result);
+	return result;
 };

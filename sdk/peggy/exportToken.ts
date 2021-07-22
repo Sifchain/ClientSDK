@@ -1,5 +1,5 @@
 import { SigningCosmosClient, coins } from '@cosmjs/launchpad';
-import { setupWallet, ethWallet } from '../../wallet';
+import { setupWallet, ethWallet, broadcastUrl } from '../../wallet';
 import config from '../../config';
 import { getWeb3 } from '../../lib/helper';
 import { SigningStargateClient } from '@cosmjs/stargate';
@@ -12,7 +12,7 @@ export const exportToken = async (symbol: string, amount: string) => {
 	const [sifAccount] = await sifWallet.getAccounts();
 	const ethereumChainId = await web3.eth.net.getId();
 	const client = await SigningStargateClient.connectWithSigner(
-		config.sifnodeLcdApi,
+		broadcastUrl,
 		sifWallet
 	);
 	const fee = { amount: coins(250000, 'rowan'), gas: '500000' };
@@ -42,6 +42,7 @@ export const exportToken = async (symbol: string, amount: string) => {
 	// 		ethereum_receiver: ethWallet.address,
 	// 	},
 	// };
+	// point of concern:
 	const unsigned42Txn = {
 		typeUrl: `ethbridge/${type}`,
 		value: {

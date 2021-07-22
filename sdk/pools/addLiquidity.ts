@@ -12,8 +12,6 @@ export const addLiquidity = async (
 		const wallet = await setupWallet();
 		const [firstAccount] = await wallet.getAccounts();
 
-		const sender = firstAccount.address;
-
 		const unsigned_txn = {
 			typeUrl: 'clp/AddLiquidity',
 			value: {
