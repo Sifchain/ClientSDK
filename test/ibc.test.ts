@@ -59,6 +59,11 @@ describe('test ibc feature', () => {
         },
       );
 
+      const fee = 10000;
+      const message = 'lol';
+      
+      const brdcstTxSen = await sendingStargateClient.signAndBroadcast(fromAddress, message, fee)
+
     } catch (error) {
       console.log(error)
     }
