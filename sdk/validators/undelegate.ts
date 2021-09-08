@@ -1,34 +1,56 @@
-import { SigningCosmosClient, coin } from '@cosmjs/launchpad';
+import { setupWallet, fee, broadcastUrl } from '../../wallet';
+import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing';
 import {
+	assertIsBroadcastTxSuccess,
 	MsgUndelegateEncodeObject,
 	SigningStargateClient,
 } from '@cosmjs/stargate';
-import { setupWallet, fee, broadcastUrl } from '../../wallet';
 
-export const undelegate = async (amount: number, toValidator: string) => {
+// A message type auto-generated from .proto files using ts-proto. @cosmjs/stargate ships some
+// common types but don't rely on those being available. You need to set up your own code generator
+// for the types you care about. How this is done should be documented, but is not yet:
+// https://github.com/cosmos/cosmjs/issues/640
+import { MsgUndelegate } from '@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/tx';
+import { StdFee } from '@cosmjs/launchpad';
+
+export const undelegate = async (amount: string, toValidator: string) => {
 	const wallet = await setupWallet();
 	const [firstAccount] = await wallet.getAccounts();
 
 	const sender = firstAccount.address;
 
-	const unsigned_txn: MsgUndelegateEncodeObject = {
-		typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
-		value: {
-			delegatorAddress: sender,
-			validatorAddress: toValidator,
-			amount: coin(amount, 'rowan'),
-		},
-	};
 	const client = await SigningStargateClient.connectWithSigner(
 		broadcastUrl,
 		wallet
 	);
-	// const
-	const txnStatus = await client.signAndBroadcast(
-		wallet.getAccounts()[0].address,
-		[unsigned_txn],
+
+	const msg: MsgUndelegate = {
+		delegatorAddress: sender,
+		validatorAddress: toValidator,
+		amount: {
+			denom: 'rowan',
+			amount,
+		},
+	};
+	const msgUnDelegate: MsgUndelegateEncodeObject = {
+		typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+		value: msg,
+	};
+	const fee: StdFee = {
+		amount: [
+			{
+				denom: 'rowan',
+				amount: '150000',
+			},
+		],
+		gas: '300000',
+	};
+
+	const result = await client.signAndBroadcast(
+		firstAccount.address,
+		[msgUnDelegate],
 		fee
 	);
-
-	return txnStatus;
+	await assertIsBroadcastTxSuccess(result);
+	return result;
 };
