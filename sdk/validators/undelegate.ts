@@ -1,5 +1,4 @@
 import { setupWallet, fee, broadcastUrl } from '../../wallet';
-import { DirectSecp256k1HdWallet, Registry } from '@cosmjs/proto-signing';
 import {
 	assertIsBroadcastTxSuccess,
 	MsgUndelegateEncodeObject,
