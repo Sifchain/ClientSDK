@@ -39,7 +39,7 @@ export const importToken = async (symbol: string, amount: string) => {
 		await approveSpend(ethWallet.address, amount, gas);
 
 		tx = {
-			// nonce: await web3.eth.getTransactionCount(ethWallet.address),
+			nonce: await web3.eth.getTransactionCount(ethWallet.address),
 			to: config.bridgeBankAddress,
 			value: 0,
 			gas,
@@ -58,7 +58,7 @@ export const importToken = async (symbol: string, amount: string) => {
 		await approveSpend(ethWallet.address, amount, gas);
 
 		tx = {
-			// nonce: await web3.eth.getTransactionCount(ethWallet.address),
+			nonce: await web3.eth.getTransactionCount(ethWallet.address),
 			to: config.bridgeBankAddress,
 			value: amount,
 			gas,
