@@ -28,7 +28,7 @@ export const removeLiquidity = async (
 			typeUrl: '/sifnode.clp.v1.MsgRemoveLiquidity',
 			value: {
 				signer,
-				externalAsset: { symbol: externalAsset},
+				externalAsset: { symbol: externalAsset },
 				wBasisPoints,
 				asymmetry,
 			},

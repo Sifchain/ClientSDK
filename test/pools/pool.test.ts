@@ -1,46 +1,6 @@
-import { addLiquidity } from '../sdk/pools/addLiquidity';
-import { removeLiquidity } from '../sdk/pools/removeLiquidity';
-import { swap } from '../sdk/pools/swap';
 import { PoolsApi } from 'sifchain';
-import config from '../config';
+import config from '../../config';
 const sifAPI = new PoolsApi(config.apiConfig);
-
-describe('test add liquidity feature', () => {
-	it("should report invalid address for wrong signer addLiquidity('ceth', 1000, 10, 'signer')", async () => {
-		const data = await addLiquidity('ceth', 1000, 10, 'signer');
-		expect(data.rawLog).toBe('invalid address: ');
-	});
-
-	it("should return zero height for wrong value of addLiquidity('ceth, 1000, 10, signer2')", async () => {
-		const data = await addLiquidity('ceth', 1000, 10, 'signer');
-		expect(data['height']).toBe(0);
-	});
-});
-
-describe('test remove liquidity feature', () => {
-	it("should report invalid address for wrong removeLiquidity('signer', 'ceth', 500, 1000)", async () => {
-		const data = await removeLiquidity('signer', 'ceth', 500, 1000);
-		expect(data.rawLog).toBe('invalid address: ');
-	});
-});
-
-describe('test swap feature', () => {
-	it('should fail', async () => {
-		const sentAsset = 'sentAsset';
-		const receivedAsset = 'receivedAsset';
-		const sentAmount = 1234;
-		const minReceivingAmount = 1234;
-		const signer = 'signer';
-		const data = await swap(
-			sentAsset,
-			receivedAsset,
-			sentAmount,
-			minReceivingAmount,
-			signer
-		);
-		expect(data.rawLog).toBe('invalid address: ');
-	});
-});
 
 describe('test getPools feature', () => {
 	it('should get pools', async () => {
