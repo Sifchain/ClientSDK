@@ -1,5 +1,5 @@
-import { importToken } from '../sdk/peggy/importToken'
-import { exportToken } from '../sdk/peggy/exportToken'
+import { importToken } from '../sdk/ethbridge/importToken'
+import { exportToken } from '../sdk/ethbridge/exportToken'
 import config from '../config'
 import { setupWallet, ethWallet } from '../wallet'
 import { advanceBlock, sleep } from '../lib/helper'
