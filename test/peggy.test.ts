@@ -1,32 +1,46 @@
-import { importToken } from '../sdk/peggy/importToken'
-import { exportToken } from '../sdk/peggy/exportToken'
+import { importToken } from '../sdk/ethbridge/importToken'
+import { exportToken } from '../sdk/ethbridge/exportToken'
 import config from '../config'
-import { SigningCosmosClient } from "@cosmjs/launchpad";
 import { setupWallet, ethWallet } from '../wallet'
-import { advanceBlock, sleep, getWeb3 } from '../lib/helper'
-const web3 = getWeb3()
+import { advanceBlock, sleep } from '../lib/helper'
+import { SigningStargateClient } from '@cosmjs/stargate';
 
-describe('test peg feature', () => {
+import Web3 from 'web3'
+const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
-  it("should importToken eth => cEth", async () => {
+describe.only('test peg feature', () => {
+
+  it.only("should importToken eth => cEth", async () => {
     try {
+      
+      const ethBalance = await web3.eth.getBalance(ethWallet.address);
+	    console.log({ ethBalance });
+
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
-      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+      const client = await SigningStargateClient.connectWithSigner(
+        config.sifRpc,
+        sifWallet
+      );
 
-      // check balance before importToken
-      const accountBefore = await client.getAccount(address)
-      const cEthBalanceBefore = accountBefore.balance.find(b => b.denom === 'ceth').amount
+      const balancesBefore = await client.getAllBalances(address)
+
+      console.log({ balancesBefore });
       
-      const importTokenAmount = '3000000000000000001'
+      // check balance before importToken
+      // const accountBefore = await client.getAccount(address)
+      const cEthBalanceBefore = balancesBefore.find(b => b.denom === 'ceth').amount
+      
+      const importTokenAmount = '1000000001'
       const importTokenRes = await importToken('eth', importTokenAmount)
       console.log({ importTokenRes })
 
-      await advanceBlock(1001)
+      // await advanceBlock(1001)
+      await sleep(20000)
 
       // check balance after importToken
-      const accountAfter = await client.getAccount(address)
-      const cEthBalanceAfter = accountAfter.balance.find(b => b.denom === 'ceth').amount
+      const balancesAfter = await client.getAllBalances(address)
+      const cEthBalanceAfter = balancesAfter.find(b => b.denom === 'ceth').amount
 
       console.log({ cEthBalanceBefore, cEthBalanceAfter });
 
@@ -42,24 +56,25 @@ describe('test peg feature', () => {
 
     const sifWallet = await setupWallet()
     const [{ address }] = await sifWallet.getAccounts()
-    const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
+    const client = await SigningStargateClient.connectWithSigner(
+      config.sifRpc,
+      sifWallet
+    )
     // check balance before importToken
-    const accountBefore = await client.getAccount(address)
-    console.log({ accounts: accountBefore.balance });
-    
-    const rowanBalanceBefore = accountBefore.balance
+    const balancesBefore = await client.getAllBalances(address)
+    const rowanBalanceBefore = balancesBefore
       .find(b => b.denom === 'rowan').amount
 
     const importTokenAmount = '10000000000000000001'
     const importTokenRes = await importToken('erowan', importTokenAmount)
     console.log({ importTokenRes })
 
-    await advanceBlock(2011)
+    // await advanceBlock(2011)
+    await sleep(2000)
 
     // check balance after importToken
-    const accountAfter = await client.getAccount(address)
-    const rowanBalanceAfter = accountAfter.balance
-      .find(b => b.denom === 'rowan').amount
+    const balanceAfter = await client.getAllBalances(address)
+    const rowanBalanceAfter = balanceAfter.find(b => b.denom === 'rowan').amount
 
     console.log({ rowanBalanceBefore, rowanBalanceAfter });
 
@@ -67,25 +82,27 @@ describe('test peg feature', () => {
 
   })
 
-  it.only("should importToken test => ctest", async () => {
+  it("should importToken test => ctest", async () => {
     try {
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
-      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
-
-      // check balance before importToken
-      const accountBefore = await client.getAccount(address)
-      const cTestBalanceBefore = accountBefore.balance.find(b => b.denom === 'ctest').amount
+      const client = await SigningStargateClient.connectWithSigner(
+        config.sifRpc,
+        sifWallet
+      )
+      const balancesBefore = await client.getAllBalances(address)
+      const cTestBalanceBefore = balancesBefore.find(b => b.denom === 'ctest').amount
       
       const importTokenAmount = '1000000000000000001'
       const importTokenRes = await importToken('test', importTokenAmount)
       console.log({ importTokenRes })
 
-      await advanceBlock(1001)
+      // await advanceBlock(1001)
+      await sleep(2000)
 
       // check balance after importToken
-      const accountAfter = await client.getAccount(address)
-      const cTestBalanceAfter = accountAfter.balance.find(b => b.denom === 'ctest').amount
+      const balanceAfter = await client.getAllBalances(address)
+      const cTestBalanceAfter = balanceAfter.find(b => b.denom === 'ctest').amount
 
       console.log({ cTestBalanceBefore, cTestBalanceAfter });
 
@@ -103,19 +120,11 @@ describe('test exportToken feature', () => {
 
   it("should exportToken cEth => eth", async () => {
     try {
-
-      const sifWallet = await setupWallet()
-      const [{ address }] = await sifWallet.getAccounts()
-      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
-          //  check balance before exportToken
-      const accountBefore = await client.getAccount(address)
-      console.log({ accounts: accountBefore.balance })
       const ethBalanceBefore = await web3.eth.getBalance(ethWallet.address)
-      console.log({ ethBalanceBefore })
       const exportTokenAmount = '50000000000000000'
       await exportToken('ceth', exportTokenAmount)
 
-      await advanceBlock(1000)
+      // await advanceBlock(1000)
       await sleep(2000)
 
       const ethBalanceAfter = await web3.eth.getBalance(ethWallet.address)
@@ -131,22 +140,27 @@ describe('test exportToken feature', () => {
 
   it("should exportToken rowan => eRowan", async () => {
     try {
-
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
-      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
-          //  check balance before exportToken
-      const accountBefore = await client.getAccount(address)
-      console.log({ accounts: accountBefore.balance })
+      const client = await SigningStargateClient.connectWithSigner(
+        config.sifRpc,
+        sifWallet
+      )
+      const balancesBefore = await client.getAllBalances(address)
+      console.log({ balancesBefore })
+      
       const ethBalance = await web3.eth.getBalance(ethWallet.address)
       console.log({ ethBalance })
-      await exportToken('rowan', '2000000000000000000')
-      await advanceBlock(101)
+      await exportToken('rowan', '200000000000000001')
+      // await advanceBlock(101)
 
       await sleep(3000)
 
       const ethBalanceAfter = await web3.eth.getBalance(ethWallet.address)
       console.log({ ethBalance, ethBalanceAfter })
+
+      const balancesAfter = await client.getAllBalances(address)
+      console.log({ balancesBefore, balancesAfter })
 
     } catch (error) {
       console.log(error)
@@ -159,14 +173,16 @@ describe('test exportToken feature', () => {
 
       const sifWallet = await setupWallet()
       const [{ address }] = await sifWallet.getAccounts()
-      const client = new SigningCosmosClient(config.sifnodeLcdApi, address, sifWallet)
-          //  check balance before exportToken
-      const accountBefore = await client.getAccount(address)
-      console.log({ accounts: accountBefore.balance })
+      const client = await SigningStargateClient.connectWithSigner(
+        config.sifRpc,
+        sifWallet
+      )
+      const balancesBefore = await client.getAllBalances(address)
+      console.log({ balancesBefore })
       const ethBalance = await web3.eth.getBalance(ethWallet.address)
       console.log({ ethBalance })
       await exportToken('ctest', '1000000000000000000')
-      await advanceBlock(101)
+      // await advanceBlock(101)
 
       await sleep(3000)
 
