@@ -1,4 +1,4 @@
-import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
+import { DirectSecp256k1HdWallet, coins } from '@cosmjs/proto-signing'
 import config from './config'
 import { ethers } from 'ethers'
 import * as dotenv from 'dotenv';
@@ -10,3 +10,12 @@ export const ethWallet = ethers.Wallet.fromMnemonic(process.env.ETH_MNEMONIC)
 export const setupWallet = async function() {
   return await DirectSecp256k1HdWallet.fromMnemonic(process.env.SIF_MNEMONIC, config.sifwallet)
 } 
+
+  // export const ethWallet = ethers.Wallet.fromMnemonic(config.mnemonic);
+
+export const fee = {
+	amount: coins(150000, 'rowan'),
+	gas: '300000',
+};
+
+export const broadcastUrl = 'https://rpc-testnet.sifchain.finance';
