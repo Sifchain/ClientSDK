@@ -55,7 +55,7 @@ export const addLiquidity = async (
 			fee
 		);
 		return txnStatus;
-	} catch (e) {
-		console.log(e);
+	} catch (error) {
+		console.log(error);
 	}
 };

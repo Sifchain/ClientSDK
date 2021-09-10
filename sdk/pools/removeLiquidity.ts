@@ -1,41 +1,61 @@
-import { SigningCosmosClient } from '@cosmjs/launchpad';
-import { setupWallet, fee, broadcastUrl } from '../../wallet';
-import config from '../../config';
+import { StdFee, coin } from '@cosmjs/launchpad';
 import { SigningStargateClient } from '@cosmjs/stargate';
+import { setupWallet, fee, broadcastUrl } from '../../wallet';
+import { MsgRemoveLiquidity, MsgRemoveLiquidityResponse } from '../generated/proto/sifnode/clp/v1/tx';
+import { NativeDexClient } from '../client';
+import { Registry } from '@cosmjs/proto-signing';
+
+type MsgRemoveLiquidityEncodeObject = {
+	typeUrl: string,
+	value: MsgRemoveLiquidity
+}
+
+type Asset = {
+	symbol: string,
+}
 
 export const removeLiquidity = async (
-	signer: string,
 	externalAsset: string,
-	wBasisPoints: number,
-	asymmetry: number
+	wBasisPoints: string,
+	asymmetry: string
 ) => {
 	try {
 		const wallet = await setupWallet();
 		const [firstAccount] = await wallet.getAccounts();
+		const signer = firstAccount.address;
 
-		const sender = firstAccount.address;
-
-		const unsigned_txn = {
-			typeUrl: 'clp/RemoveLiquidity',
+		const unsigned_txn: MsgRemoveLiquidityEncodeObject = {
+			typeUrl: '/sifnode.clp.v1.MsgRemoveLiquidity',
 			value: {
 				signer,
-				external_asset: externalAsset,
-				w_basis_points: wBasisPoints,
+				externalAsset: { symbol: externalAsset},
+				wBasisPoints,
 				asymmetry,
 			},
 		};
 		const client = await SigningStargateClient.connectWithSigner(
 			broadcastUrl,
-			wallet
+			wallet,
+			{
+				registry: new Registry([...NativeDexClient.getGeneratedTypes()])
+			}
 		);
-		// const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
+		const fee: StdFee = {
+			amount: [
+				{
+					denom: 'rowan',
+					amount: '150000',
+				},
+			],
+			gas: '300000',
+		};
 		const txnStatus = await client.signAndBroadcast(
-			wallet.getAccounts()[0].address,
+			firstAccount.address,
 			[unsigned_txn],
 			fee
 		);
 		return txnStatus;
-	} catch (e) {
-		console.log(e);
+	} catch (error) {
+		console.log(error);
 	}
 };
