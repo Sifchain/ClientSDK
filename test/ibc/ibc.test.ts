@@ -1,15 +1,7 @@
-import config from '../config';
-import { setupWallet, ethWallet } from '../wallet';
+import config from '../../config';
+import { setupWallet } from '../../wallet';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import {
-  QueryClient,
-  setupBankExtension,
-  setupIbcExtension,
-  setupAuthExtension,
-} from "@cosmjs/stargate/build/queries";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import Web3 from 'web3';
-const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode));
+import { exportTokenIBC } from '../../sdk/ibc/exportTokenIBC'
 
 describe('test ibc feature', () => {
 
@@ -25,56 +17,12 @@ describe('test ibc feature', () => {
       const balances = await client.getAllBalances(address);
       console.log({ balances });
 
-      const receivingStargateCient = await SigningStargateClient?.connectWithSigner(
-        destinationChain.rpcUrl,
-        recievingSigner,
-        {
-          gasLimits: {
-            send: 80000,
-            transfer: 250000,
-            delegate: 250000,
-            undelegate: 250000,
-            redelegate: 250000,
-            // The gas multiplication per rewards.
-            withdrawRewards: 140000,
-            govVote: 250000,
-          },
-        },
-      );
-  
-      const sendingStargateClient = await SigningStargateClient?.connectWithSigner(
-        sourceChain.rpcUrl,
-        sendingSigner,
-        {
-          gasLimits: {
-            send: 80000,
-            transfer: 250000,
-            delegate: 250000,
-            undelegate: 250000,
-            redelegate: 250000,
-            // The gas multiplication per rewards.
-            withdrawRewards: 140000,
-            govVote: 250000,
-          },
-        },
-      );
-
-      const fee = 10000;
-      const message = 'lol';
-      
-      const brdcstTxSen = await sendingStargateClient.signAndBroadcast(fromAddress, message, fee)
+      const res = await exportTokenIBC()
+      console.log({ res });
+        
 
     } catch (error) {
       console.log(error)
     }
-  })
+  }, 9999999)
 })
-
-
-//   const tendermintClient = await Tendermint34Client.connect(config.sifRpc);
-//   const queryClient = QueryClient.withExtensions(
-//     tendermintClient,
-//     setupIbcExtension,
-//     setupBankExtension,
-//     setupAuthExtension,
-//   );
