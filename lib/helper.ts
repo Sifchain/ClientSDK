@@ -1,8 +1,6 @@
 import { bridgeBank, bridgeToken } from '../lib/contracts'
 import config from '../config'
-// const ethTokens = require('../ethereum_tokens.json')
 const ethTokens = require('../assets.sifchain.localnet.json')
-const { time } = require("@openzeppelin/test-helpers")
 import { ethWallet } from '../wallet'
 
 import Web3 from 'web3'
@@ -10,16 +8,6 @@ const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
 export const getWeb3 = function() {
   return web3
-}
-
-export const isEthAddress = async function (ethAddress) {
-  const regex = new RegExp('/^0x[a-fA-F0-9]{40}$/')
-  return regex.test(ethAddress)
-}
-
-export const isSifAddress = async function (sifAddress) {
-  const regex = new RegExp('/^sif[a-zA-Z0-9]{39}$/')
-  return regex.test(sifAddress)
 }
 
 export const getToken = function (symbol: string) {
@@ -58,30 +46,15 @@ export const approveSpend = async function (ethAddress: string, amount: string, 
    return
 }
 
-// test helpers
-
-beforeEach(async () => {
-  require("@openzeppelin/test-helpers/configure")({
-    provider: new Web3.providers.HttpProvider('http://localhost:7545'),
-  });
-});
-
-
-export async function advanceBlock(count: number) {
-  console.log("Advancing time by " + count + " blocks")
-  for (let i = 0; i < count; i++) {
-
-    try {
-      
-      const xx = await time.advanceBlock()
-      // console.log("Finished advancing time.", xx)
-      
-    } catch (error) {
-      console.log('advanceBlock Error: ', error);
-      
-    }
-  }
-}
-
 export const sleep = (ms: number) =>
   new Promise((done) => setTimeout(done, ms));
+
+export const getChainRpc = (chaidId: string): string => {
+  if (chaidId === 'cosmoshub-testnet') {
+    return 'https://sifchain-proxies.vercel.app/api/cosmoshub-testnet/rpc'
+  }
+  if (chaidId === 'akash-testnet-6') {
+    return 'https://sifchain-proxies.vercel.app/api/akash-testnet-6/rpc'
+  }
+  // etc ... 
+}

@@ -5,9 +5,6 @@ import { Configuration } from './gen/api';
 dotenv.config({ path: __dirname + '/.env' });
 
 export default {
-	sifwallet: {
-		prefix: 'sif',
-	},
 	apiConfig: new Configuration({ basePath: 'https://data.sifchain.finance/beta' }),
 	
 	bridgeBankAddress: '0x6CfD69783E3fFb44CBaaFF7F509a4fcF0d8e2835', //testNet

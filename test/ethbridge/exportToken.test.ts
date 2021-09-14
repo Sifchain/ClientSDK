@@ -1,7 +1,7 @@
 import { exportToken } from '../../sdk/ethbridge/exportToken'
 import config from '../../config'
 import { setupWallet, ethWallet } from '../../wallet'
-import { advanceBlock, sleep } from '../../lib/helper'
+import { sleep } from '../../lib/helper'
 import { SigningStargateClient } from '@cosmjs/stargate';
 
 import Web3 from 'web3'
@@ -9,7 +9,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
 
 describe('test exportToken feature', () => {
   
-  it("should exportToken cEth => eth", async () => {
+  it.only("should exportToken cEth => eth", async () => {
     try {
       const ethBalanceBefore = await web3.eth.getBalance(ethWallet.address)
       const exportTokenAmount = '500000000000001'
@@ -62,7 +62,7 @@ describe('test exportToken feature', () => {
     }
   },  99999)
 
-  it.only("should exportToken caave => aave (erc20)", async () => {
+  it("should exportToken caave => aave (erc20)", async () => {
     try {
 
       const sifWallet = await setupWallet()
