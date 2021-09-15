@@ -18,7 +18,7 @@ export const exportTokenIBC = async (symbol: string, amount: string) => {
     } = entries.find(entry => entry.baseDenom === symbol);
 
     // get receiver chain info
-    const receiverChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId)
+    const receiverChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId);
     
     const wallet = await setupWallet('sif');
     const [firstAccount] = await wallet.getAccounts();

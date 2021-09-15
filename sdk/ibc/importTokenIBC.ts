@@ -17,10 +17,10 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
         ibcCounterpartyChannelId,
         ibcCounterpartyChainId,
     } = entries.find(entry => entry.baseDenom === symbol);
-    const ibcDenom = denom
+    const ibcDenom = denom;
 
     // get sender chain info
-    const senderChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId)
+    const senderChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId);
 
     const sifWallet = await setupWallet('sif');
     const [firstAccount] = await sifWallet.getAccounts();
@@ -28,7 +28,7 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
     
     const senderWallet = await setupWallet(senderChain.bech32PrefixAccAddr);
     const [senderFirstAccount] = await senderWallet.getAccounts();
-    const sender = senderFirstAccount.address
+    const sender = senderFirstAccount.address;
 
     // if symbol is native token to chain then use symbol denom else use ibcDenom
     const tokenDenom = symbol === senderChain.nativeFeeToken
