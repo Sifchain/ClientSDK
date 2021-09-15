@@ -17,6 +17,7 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
         ibcCounterpartyChannelId,
         ibcCounterpartyChainId,
     } = entries.find(entry => entry.baseDenom === symbol);
+    const ibcDenom = denom
 
     // get sender chain info
     const senderChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId)
@@ -29,6 +30,10 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
     const [senderFirstAccount] = await senderWallet.getAccounts();
     const sender = senderFirstAccount.address
 
+    // if symbol is native token to chain then use symbol denom else use ibcDenom
+    const tokenDenom = symbol === senderChain.nativeFeeToken
+        ? symbol : ibcDenom
+
     const unsignedTransferMsg: MsgTransferEncodeObject = {
         typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
         value: IbcTransferV1Tx.MsgTransfer.fromPartial({
@@ -36,7 +41,7 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
           sourceChannel: ibcCounterpartyChannelId,
           sender,
           receiver,
-          token: { denom, amount },
+          token: { denom: tokenDenom, amount },
           timeoutHeight: {
             // revisionHeight: timeoutHeight,
             // revisionHeight: timeoutHeight,
@@ -48,6 +53,10 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
         senderChain.rpcUrl,
         senderWallet
     );
+
+    // const senderBalances = await client.getAllBalances(sender);
+    // console.log({ senderBalances });
+    
     const fee: StdFee = {
         amount: [{ 
             denom: senderChain.nativeFeeToken,
