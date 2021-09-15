@@ -1,6 +1,5 @@
 import config from '../../config';
 import { SigningStargateClient, MsgTransferEncodeObject } from '@cosmjs/stargate';
-import { StdFee } from '@cosmjs/launchpad';
 import { NativeDexClient } from '../client';
 import * as IbcTransferV1Tx from "@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx";
 import { setupWallet } from '../../wallet';
