@@ -53,7 +53,7 @@ export const importToken = async (symbol: string, amount: string) => {
 	////////////////////////
 	// ERC20 -> cToken
 	////////////////////////
-	const token = getToken(`c${symbol}`);
+	const token = getToken(symbol);
 	if (token && symbol !== 'eth') {
 		// approve and lock
 		await approveSpend(ethWallet.address, amount, gas);

@@ -1,5 +1,5 @@
 import config from '../config'
-const ethTokens = require('./assets.sifchain.localnet.json')
+const ethTokens = require('./ethbridge/assets.ethereum.sifchain-testnet-042.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
