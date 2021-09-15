@@ -1,7 +1,7 @@
-import { delegate } from '../sdk/validators/delegate'
-import { undelegate } from '../sdk/validators/undelegate'
+import { delegate } from '../../sdk/validators/delegate'
+import { undelegate } from '../../sdk/validators/undelegate'
 import { ValidatorsApi } from 'sifchain'
-import config from '../config'
+import config from '../../config'
 
 const sifAPI = new ValidatorsApi(config.apiConfig)
 jest.spyOn(global.console, 'log')
@@ -9,14 +9,14 @@ jest.spyOn(global.console, 'log')
 describe('test delegate feature', () => {
   it("should report invalid address for wrong validator delegate(1000, 'signer')", async () => {
     try {
-      await delegate(1000, 'signer')
+      await delegate('1000', 'signer')
     } catch (e) {
       expect(e.toString()).toMatch(/bech32/)
     }
   }, 20000)
 
   it("should return transactionHash to delegate(53838,'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0')", async () => {
-    const txnStatus = await delegate(538, 'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0')
+    const txnStatus = await delegate('538', 'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0')
     expect(txnStatus).toHaveProperty('transactionHash')
   }, 20000)
 })
@@ -54,7 +54,7 @@ describe('test getValidator feature', () => {
 describe('test undelegate feature', () => {
   it("should return invalid address for wrong validator address undelegate(1000,'signer')", async () => {
     try {
-      await undelegate(100, 'signer')
+      await undelegate('100', 'signer')
     } catch (e) {
       expect(e).toBeTruthy()
     }

@@ -8,7 +8,7 @@ describe('test ibc feature', () => {
 
   it("should export ibc token", async () => {
     try {
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
 
       const client = await SigningStargateClient.connectWithSigner(
@@ -31,19 +31,14 @@ describe('test ibc feature', () => {
 
   it.only("should import ibc token", async () => {
     try {
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
-
-      // const cosmosWallet = await setupCosmosWallet()
-      // const [{ address }] = await cosmosWallet.getAccounts()
-
 
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,
         sifWallet
       );
 
-      
       const res = await importTokenIBC('uphoton', '101')
       console.log({ res });
       

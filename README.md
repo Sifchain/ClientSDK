@@ -180,7 +180,7 @@ Example:
 ```
 import { setupWallet } from '../../wallet'
 async function main() {
-    const wallet = await setupWallet()
+    const wallet = await setupWallet('sif')
     const [firstAccount] = await wallet.getAccounts()
     console.log(firstAccount)
 }

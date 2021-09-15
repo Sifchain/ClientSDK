@@ -1,8 +1,7 @@
 import config from '../../config';
-import { getWeb3 } from '../../lib/helper';
+import { getWeb3 } from '../helper';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import { StdFee, coin } from '@cosmjs/launchpad';
-import { setupWallet, ethWallet, fee, broadcastUrl } from '../../wallet';
+import { setupWallet, ethWallet } from '../../wallet';
 import { MsgLock, MsgBurn } from '../generated/proto/sifnode/ethbridge/v1/tx';
 import { NativeDexClient } from '../client';
 import { Registry } from '@cosmjs/proto-signing';
@@ -19,11 +18,10 @@ type MsgBurnEncodeObject = {
 }
 
 export const exportToken = async (symbol: string, amount: string) => {
-	const wallet = await setupWallet();
+	const wallet = await setupWallet('sif');
 	const [firstAccount] = await wallet.getAccounts();
 	const cosmosSender = firstAccount.address;
 	const ethereumChainId = await web3.eth.net.getId();
-	console.log({ ethereumChainId });
 	const cethAmount = '70000000000000000'; //threshold cEthFee
 	const value = {
 		cosmosSender,
@@ -46,18 +44,14 @@ export const exportToken = async (symbol: string, amount: string) => {
 		: unsignedBurnTxn; 
 		
 	const client = await SigningStargateClient.connectWithSigner(
-		broadcastUrl,
+		config.sifRpc,
 		wallet,
 		{ registry: new Registry([...NativeDexClient.getGeneratedTypes()]) }
 	);
-	const fee: StdFee = {
-		amount: [{ denom: 'rowan', amount: '150000' }],
-		gas: '300000',
-	};
 	const txnStatus = await client.signAndBroadcast(
 		firstAccount.address,
 		[unsignedTxn],
-		fee
+		config.fee
 	);
 	return txnStatus;
 };

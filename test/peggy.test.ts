@@ -2,7 +2,7 @@ import { importToken } from '../sdk/ethbridge/importToken'
 import { exportToken } from '../sdk/ethbridge/exportToken'
 import config from '../config'
 import { setupWallet, ethWallet } from '../wallet'
-import { advanceBlock, sleep } from '../lib/helper'
+import { sleep } from '../sdk/helper'
 import { SigningStargateClient } from '@cosmjs/stargate';
 
 import Web3 from 'web3'
@@ -16,7 +16,7 @@ describe.only('test peg feature', () => {
       const ethBalance = await web3.eth.getBalance(ethWallet.address);
 	    console.log({ ethBalance });
 
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,
@@ -54,7 +54,7 @@ describe.only('test peg feature', () => {
 
   it('should importToken eRowan => Rowan.', async () => {
 
-    const sifWallet = await setupWallet()
+    const sifWallet = await setupWallet('sif')
     const [{ address }] = await sifWallet.getAccounts()
     const client = await SigningStargateClient.connectWithSigner(
       config.sifRpc,
@@ -84,7 +84,7 @@ describe.only('test peg feature', () => {
 
   it("should importToken test => ctest", async () => {
     try {
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,
@@ -140,7 +140,7 @@ describe('test exportToken feature', () => {
 
   it("should exportToken rowan => eRowan", async () => {
     try {
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,
@@ -171,7 +171,7 @@ describe('test exportToken feature', () => {
   it("should exportToken ctest => test", async () => {
     try {
 
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,

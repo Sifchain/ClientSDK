@@ -1,29 +1,13 @@
 import config from '../../config';
 import { SigningStargateClient, MsgTransferEncodeObject } from '@cosmjs/stargate';
 import { StdFee } from '@cosmjs/launchpad';
-import { setupWallet, setupCosmosWallet } from '../../wallet';
 import { NativeDexClient } from '../client';
-import Long from 'long'
 import * as IbcTransferV1Tx from "@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx";
-import { getChainRpc } from '../../lib/helper'
+import { setupWallet } from '../../wallet';
+import chains from './chains';
 
-const timeoutInMinutes = 45;
-const timeoutTimestampInSeconds = Math.floor(
-  new Date().getTime() / 1000 + 60 * timeoutInMinutes,
-);
-const timeoutTimestampNanoseconds = Long
-    .fromNumber(timeoutTimestampInSeconds)
-    .multiply(1_000_000_000);
 
 export const importTokenIBC = async (symbol: string, amount: string) => {
-    
-    const wallet = await setupWallet();
-    const [firstAccount] = await wallet.getAccounts();
-    const receiver = firstAccount.address;
-    
-    const senderWallet = await setupCosmosWallet();
-    const [senderFirstAccount] = await senderWallet.getAccounts();
-    const sender = senderFirstAccount.address
     
     // look up ibc denom and channel id from dex entries
     const dex = await NativeDexClient.connect(config.sifRpc);
@@ -34,7 +18,16 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
         ibcCounterpartyChainId,
     } = entries.find(entry => entry.baseDenom === symbol);
 
-    const ibcCounterpartyChainRpc = getChainRpc(ibcCounterpartyChainId)
+    // get sender chain info
+    const senderChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId)
+
+    const sifWallet = await setupWallet('sif');
+    const [firstAccount] = await sifWallet.getAccounts();
+    const receiver = firstAccount.address;
+    
+    const senderWallet = await setupWallet(senderChain.bech32PrefixAccAddr);
+    const [senderFirstAccount] = await senderWallet.getAccounts();
+    const sender = senderFirstAccount.address
 
     const unsignedTransferMsg: MsgTransferEncodeObject = {
         typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
@@ -48,15 +41,18 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
             // revisionHeight: timeoutHeight,
             // revisionHeight: timeoutHeight,
           },
-          timeoutTimestamp: timeoutTimestampNanoseconds,
+          timeoutTimestamp: config.timeoutTimestampNanoseconds,
         }),
     };
     const client = await SigningStargateClient.connectWithSigner(
-        ibcCounterpartyChainRpc,
+        senderChain.rpcUrl,
         senderWallet
     );
     const fee: StdFee = {
-        amount: [{ denom: 'rowan', amount: '150000' }],
+        amount: [{ 
+            denom: senderChain.nativeFeeToken,
+            amount: senderChain.nativeFee
+        }],
         gas: '300000',
     };
     const txnStatus = await client.signAndBroadcast(

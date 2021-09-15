@@ -1,9 +1,9 @@
-import { StdFee, coin, Msg } from '@cosmjs/launchpad';
 import { Registry } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { NativeDexClient } from '../client';
-import { setupWallet, broadcastUrl } from '../../wallet';
+import { setupWallet } from '../../wallet';
 import { MsgSwap } from '../generated/proto/sifnode/clp/v1/tx';
+import config from '../../config';
 
 type MsgSwapEncodeObject = {
 	typeUrl: string,
@@ -21,7 +21,7 @@ export const swap = async (
 	minReceivingAmount: string,
 ) => {
 	try {
-		const wallet = await setupWallet();
+		const wallet = await setupWallet('sif');
 		const [firstAccount] = await wallet.getAccounts();
 
 		const signer = firstAccount.address;
@@ -41,27 +41,17 @@ export const swap = async (
 			},
 		};
 		const client = await SigningStargateClient.connectWithSigner(
-			broadcastUrl,
+			config.sifRpc,
 			wallet,
 			{
 				registry: new Registry([...NativeDexClient.getGeneratedTypes()])
 			}
 		);
 
-		const fee: StdFee = {
-			amount: [
-				{
-					denom: 'rowan',
-					amount: '150000',
-				},
-			],
-			gas: '300000',
-		};
-
 		const txnStatus = await client.signAndBroadcast(
 			firstAccount.address,
 			[unsigned_txn],
-			fee
+			config.fee
 		);
 		return txnStatus;
 	} catch (e) {

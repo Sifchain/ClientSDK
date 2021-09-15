@@ -1,7 +1,7 @@
 import { exportToken } from '../../sdk/ethbridge/exportToken'
 import config from '../../config'
 import { setupWallet, ethWallet } from '../../wallet'
-import { sleep } from '../../lib/helper'
+import { sleep } from '../../sdk/helper'
 import { SigningStargateClient } from '@cosmjs/stargate';
 
 import Web3 from 'web3'
@@ -32,7 +32,7 @@ describe('test exportToken feature', () => {
 
   it("should exportToken rowan => eRowan", async () => {
     try {
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,
@@ -65,7 +65,7 @@ describe('test exportToken feature', () => {
   it("should exportToken caave => aave (erc20)", async () => {
     try {
 
-      const sifWallet = await setupWallet()
+      const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
       const client = await SigningStargateClient.connectWithSigner(
         config.sifRpc,

@@ -1,14 +1,15 @@
 import { setupWallet, ethWallet } from '../../wallet';
 import Web3 from 'web3';
 import config from '../../config';
-import { getToken, approveSpend, getWeb3 } from '../../lib/helper';
-import { bridgeBank } from '../../lib/contracts';
+import { getToken, getWeb3 } from '../helper';
+import { approveSpend } from './approveSpend';
+import { bridgeBank } from './smartContracts/contracts';
 
 const web3 = getWeb3();
 
 // import
 export const importToken = async (symbol: string, amount: string) => {
-	const sifWallet = await setupWallet();
+	const sifWallet = await setupWallet('sif');
 	const [sifAccount] = await sifWallet.getAccounts();
 	const sifAddress = Web3.utils.utf8ToHex(sifAccount.address);
 	const gas = (await web3.eth.getBlock('latest')).gasLimit; // 150000
@@ -20,7 +21,7 @@ export const importToken = async (symbol: string, amount: string) => {
 	if (symbol.toLowerCase() === 'eth') {
 		// lock
 		tx = {
-			nonce: (await web3.eth.getTransactionCount(ethWallet.address)),
+			nonce: (await web3.eth.getTransactionCount(ethWallet.address)) + 1,
 			to: config.bridgeBankAddress,
 			// from: ethWallet.address,
 			value: amount,
@@ -39,7 +40,7 @@ export const importToken = async (symbol: string, amount: string) => {
 		await approveSpend(ethWallet.address, amount, gas);
 
 		tx = {
-			nonce: await web3.eth.getTransactionCount(ethWallet.address),
+			nonce: (await web3.eth.getTransactionCount(ethWallet.address)) + 1,
 			to: config.bridgeBankAddress,
 			value: 0,
 			gas,
@@ -58,7 +59,7 @@ export const importToken = async (symbol: string, amount: string) => {
 		await approveSpend(ethWallet.address, amount, gas);
 
 		tx = {
-			nonce: await web3.eth.getTransactionCount(ethWallet.address),
+			nonce: (await web3.eth.getTransactionCount(ethWallet.address)) + 1,
 			to: config.bridgeBankAddress,
 			value: amount,
 			gas,
