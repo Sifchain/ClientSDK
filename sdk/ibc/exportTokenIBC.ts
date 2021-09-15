@@ -48,10 +48,6 @@ export const exportTokenIBC = async (symbol: string, amount: string) => {
         config.sifRpc,
         wallet
     );
-    const fee: StdFee = {
-        amount: [{ denom: 'rowan', amount: '150000' }],
-        gas: '300000',
-    };
     const txnStatus = await client.signAndBroadcast(
         firstAccount.address,
         [unsignedTransferMsg],
