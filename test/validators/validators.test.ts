@@ -16,7 +16,10 @@ describe('test delegate feature', () => {
   }, 20000)
 
   it("should return transactionHash to delegate(53838,'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0')", async () => {
-    const txnStatus = await delegate('538', 'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0')
+    const txnStatus = await delegate(
+      '538',
+      'sifvaloper1vmtp5ul2uzmtvhchpftpzm0t49nk0hhasx52z0'
+    )
     expect(txnStatus).toHaveProperty('transactionHash')
   }, 20000)
 })
