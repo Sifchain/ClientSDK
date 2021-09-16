@@ -3,23 +3,24 @@ import { undelegate } from './sdk/validators/undelegate'
 import { swap } from './sdk/pools/swap'
 
 const start = async () => {
-  // const txnStatus = await delegate(
-  // 	'53837',
-  // 	'sifvaloper16svh7gvexg3p7f2a7l5f8cpj5m7rja4exdjhhq'
-  // );
-  // //const txnStatus = await delegate(53838, 'sifv')
-  // console.log(txnStatus);
+//
+// *** Your logic here ***
+//
+//
+//   const delegateRes = await delegate(
+//     '53837',
+//     'sifvaloper16svh7gvexg3p7f2a7l5f8cpj5m7rja4exdjhhq'
+//   )
+//   console.log({ delegateRes })
 
-  // const txnStatusUndelegate = await undelegate(
-  // 	'53837',
-  // 	'sifvaloper16svh7gvexg3p7f2a7l5f8cpj5m7rja4exdjhhq'
-  // );
-  // //const txnStatus = await delegate(53838, 'sifv')
-  // console.log(txnStatusUndelegate);
+//   const undelegateRes = await undelegate(
+//     '53837',
+//     'sifvaloper16svh7gvexg3p7f2a7l5f8cpj5m7rja4exdjhhq'
+//   )
+//   console.log({ undelegateRes })
 
-  const txnStatusSwap = await swap('rowan', 'ceth', '1234', '1')
-  //const txnStatus = await delegate(53838, 'sifv')
-  console.log(txnStatusSwap)
+//   const swapRes = await swap('rowan', 'ceth', '1234', '1')
+//   console.log({ swapRes })
 }
 
 start()

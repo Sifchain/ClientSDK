@@ -1,4 +1,4 @@
-import { setupWallet, ethWallet } from '../../wallet'
+import { setupWallet, ethWallet } from '../wallet'
 import Web3 from 'web3'
 import config from '../../config'
 import { getERC20Token, getWeb3 } from './ethbridgeHelpers'
@@ -6,7 +6,6 @@ import { approveSpend } from './approveSpend'
 import { bridgeBank } from './smartContracts/contracts'
 
 const web3 = getWeb3()
-
 
 export const importToken = async (symbol: string, amount: string) => {
   const sifWallet = await setupWallet('sif')

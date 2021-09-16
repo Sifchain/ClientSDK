@@ -1,5 +1,5 @@
 import config from '../../config'
-import { setupWallet } from '../../wallet'
+import { setupWallet } from '../../sdk/wallet'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import { exportTokenIBC } from '../../sdk/ibc/exportTokenIBC'
 import { importTokenIBC } from '../../sdk/ibc/importTokenIBC'
