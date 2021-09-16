@@ -6,8 +6,10 @@ import { importTokenIBC } from '../../sdk/ibc/importTokenIBC'
 
 describe('test ibc feature', () => {
 
-  it("should export ibc token", async () => {
+  
+  it.only("should export ibc token", async () => {
     try {
+      
       const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
 
@@ -20,7 +22,7 @@ describe('test ibc feature', () => {
       console.log({ balances });
 
       // const res = await exportTokenIBC('rowan', '202000')
-      const res = await exportTokenIBC('uphoton', '202');
+      const res = await exportTokenIBC('uatom', '202000');
       console.log({ res });
         
 
@@ -29,7 +31,7 @@ describe('test ibc feature', () => {
     }
   }, 90000)
 
-  it.only("should import ibc token", async () => {
+  it("should import ibc token", async () => {
     try {
       const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
@@ -39,7 +41,7 @@ describe('test ibc feature', () => {
         sifWallet
       );
 
-      const res = await importTokenIBC('uphoton', '101')
+      const res = await importTokenIBC('uatom', '101')
       console.log({ res });
       
       const balances = await client.getAllBalances(address);

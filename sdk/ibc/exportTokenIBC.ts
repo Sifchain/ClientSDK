@@ -3,7 +3,7 @@ import { SigningStargateClient, MsgTransferEncodeObject } from '@cosmjs/stargate
 import { NativeDexClient } from '../client';
 import * as IbcTransferV1Tx from "@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx";
 import { setupWallet } from '../../wallet';
-import chains from './chains';
+import chainsIBC from './chainsConfigIBC';
 
 
 export const exportTokenIBC = async (symbol: string, amount: string) => {
@@ -18,13 +18,13 @@ export const exportTokenIBC = async (symbol: string, amount: string) => {
     } = entries.find(entry => entry.baseDenom === symbol);
 
     // get receiver chain info
-    const receiverChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId);
+    const receiverChain = chainsIBC.find(chain => chain.chainId === ibcCounterpartyChainId);
     
     const wallet = await setupWallet('sif');
     const [firstAccount] = await wallet.getAccounts();
     const sender = firstAccount.address;
 
-    const receiverWallet = await setupWallet(receiverChain.bech32PrefixAccAddr);
+    const receiverWallet = await setupWallet(receiverChain.bech32PrefixAccAddr, receiverChain.walletMnemonic);
     const [receiverFirstAccount] = await receiverWallet.getAccounts();
     const receiver = receiverFirstAccount.address
 

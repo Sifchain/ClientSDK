@@ -7,9 +7,9 @@ dotenv.config({ path: __dirname + '/.env' });
 // using ethers here instead because Web3 doesn't have any way to generate wallets via mnemonics
 export const ethWallet = ethers.Wallet.fromMnemonic(process.env.ETH_MNEMONIC)
 
-export const setupWallet = async function(prefix: string) {
-  return await DirectSecp256k1HdWallet.fromMnemonic(
-    process.env.SIF_MNEMONIC,
-    { prefix }
-  )
+export const setupWallet = async function(
+  prefix: string = 'sif',
+  mnemonic: string = process.env.SIF_MNEMONIC
+  ) {
+  return await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix })
 }

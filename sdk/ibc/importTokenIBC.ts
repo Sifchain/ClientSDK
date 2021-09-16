@@ -4,7 +4,7 @@ import { StdFee } from '@cosmjs/launchpad';
 import { NativeDexClient } from '../client';
 import * as IbcTransferV1Tx from "@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx";
 import { setupWallet } from '../../wallet';
-import chains from './chains';
+import chainsIBC from './chainsConfigIBC';
 
 
 export const importTokenIBC = async (symbol: string, amount: string) => {
@@ -20,13 +20,13 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
     const ibcDenom = denom;
 
     // get sender chain info
-    const senderChain = chains.find(chain => chain.chainId === ibcCounterpartyChainId);
+    const senderChain = chainsIBC.find(chain => chain.chainId === ibcCounterpartyChainId);
 
     const sifWallet = await setupWallet('sif');
     const [firstAccount] = await sifWallet.getAccounts();
     const receiver = firstAccount.address;
     
-    const senderWallet = await setupWallet(senderChain.bech32PrefixAccAddr);
+    const senderWallet = await setupWallet(senderChain.bech32PrefixAccAddr, senderChain.walletMnemonic);
     const [senderFirstAccount] = await senderWallet.getAccounts();
     const sender = senderFirstAccount.address;
 
@@ -62,7 +62,7 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
             denom: senderChain.nativeFeeToken,
             amount: senderChain.nativeFee
         }],
-        gas: '300000',
+        gas: senderChain.gas,
     };
     const txnStatus = await client.signAndBroadcast(
         sender,

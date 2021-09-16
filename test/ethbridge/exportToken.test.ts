@@ -1,11 +1,13 @@
 import { exportToken } from '../../sdk/ethbridge/exportToken'
 import config from '../../config'
 import { setupWallet, ethWallet } from '../../wallet'
-import { sleep } from '../../sdk/helper'
 import { SigningStargateClient } from '@cosmjs/stargate';
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
+
+export const sleep = (ms: number) =>
+  new Promise((done) => setTimeout(done, ms));
 
 describe('test exportToken feature', () => {
   

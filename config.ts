@@ -21,16 +21,16 @@ const fee: StdFee = {
 export default {
 	apiConfig: new Configuration({ basePath: 'https://data.sifchain.finance/beta' }),
 	
-	bridgeBankAddress: '0x6CfD69783E3fFb44CBaaFF7F509a4fcF0d8e2835', //testNet
+	bridgeBankAddress: '0xB5F54ac4466f5ce7E0d8A5cB9FE7b8c0F35B7Ba8',
 
 	//testnet eRowan Token Address
 	// const bridgeTokenAddress = await bridgeBank().methods.getBridgeToken('erowan').call()
-	bridgeTokenAddress: '0xEC017aC9003D2906Fc855258040A56C671a315d6', 
+	bridgeTokenAddress: '0x07baC35846e5eD502aA91AdF6A9e7aA210F2DcbE', 
 
 	ethContractAddress: '0x0000000000000000000000000000000000000000',
-	sifnodeLcdApi: 'https://api-testnet.sifchain.finance',
-	sifRpc: 'https://rpc-testnet.sifchain.finance',
-	ethnode: `https://:${process.env.INFURA_SECRET}@ropsten.infura.io/v3/1a28451a2df14ec1be70a7238cb131fc`,
+	sifnodeLcdApi: 'https://api-int.sifchain.finance',
+	sifRpc: 'https://rpc.sifchain.finance',
+	ethnode: `https://:${process.env.INFURA_SECRET}@mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
 
 	timeoutTimestampNanoseconds,
 	fee,

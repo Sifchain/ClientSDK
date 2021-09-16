@@ -1,5 +1,5 @@
-import config from '../config'
-const ethTokens = require('./ethbridge/assets.ethereum.sifchain-testnet-042.json')
+import config from '../../config'
+const ethTokens = require('./ethbridge/assets.sifchain.mainnet.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
@@ -11,6 +11,3 @@ export const getWeb3 = function() {
 export const getToken = function (symbol: string) {
   return ethTokens.find(token => token.symbol === symbol)
 }
-
-export const sleep = (ms: number) =>
-  new Promise((done) => setTimeout(done, ms));
