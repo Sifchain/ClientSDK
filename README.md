@@ -22,7 +22,7 @@ Once you have generated the stubs, you can test out each modules transaction fun
 
 It is the users responsibility to ensure that your transactions are being broadcast to a safe and non-malicious node operator.
 
-1. Causes the implemented code to be compiled into javascript and runs the index.js which drives the main application.
+1. Causes the implemented code to be compiled into javascript and runs the `index.ts` which drives the main application. The `index.ts` file only prints a console.log but is ready for you to build out your own application using the available methods in the `/sdk` folder. 
    `npm run start`
 
 ## Tests

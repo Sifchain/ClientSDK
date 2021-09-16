@@ -1,6 +1,6 @@
 import { importToken } from '../../sdk/ethbridge/importToken'
 import config from '../../config'
-import { setupWallet, ethWallet } from '../../wallet'
+import { setupWallet, ethWallet } from '../../sdk/wallet'
 import { SigningStargateClient } from '@cosmjs/stargate'
 
 import Web3 from 'web3'
