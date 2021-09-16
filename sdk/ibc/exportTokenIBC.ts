@@ -12,6 +12,7 @@ export const exportTokenIBC = async (symbol: string, amount: string) => {
   // look up ibc denom and channel id from dex entries
   const dex = await NativeDexClient.connect(config.sifRpc)
   const { entries } = (await dex.query.tokenregistry.Entries({})).registry
+  // console.log({ entries }) // list of IBC tokens on the dex
   const { denom, ibcChannelId, ibcCounterpartyChainId } = entries.find(
     (entry) => entry.baseDenom === symbol
   )
