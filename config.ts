@@ -25,7 +25,7 @@ export default {
 
   bridgeBankAddress: '0xB5F54ac4466f5ce7E0d8A5cB9FE7b8c0F35B7Ba8',
 
-  //testnet eRowan Token Address
+  // BridgeTokenAddress / eRowan Token Address
   // const bridgeTokenAddress = await bridgeBank().methods.getBridgeToken('erowan').call()
   bridgeTokenAddress: '0x07baC35846e5eD502aA91AdF6A9e7aA210F2DcbE',
 
