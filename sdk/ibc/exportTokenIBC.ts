@@ -5,7 +5,7 @@ import {
 } from '@cosmjs/stargate'
 import { NativeDexClient } from '../client'
 import * as IbcTransferV1Tx from '@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx'
-import { setupWallet } from '../../wallet'
+import { setupWallet } from '../wallet'
 import chainsIBC from './chainsConfigIBC'
 
 export const exportTokenIBC = async (symbol: string, amount: string) => {
