@@ -47,4 +47,3 @@ describe('test getHistoricalPrice', () => {
     expect(res.data[0]).toBeTruthy()
   })
 })
-

@@ -1,23 +1,46 @@
-import { SigningCosmosClient, coin } from '@cosmjs/launchpad'
-import { setupWallet, fee, broadcastUrl } from '../../wallet'
+import { setupWallet } from '../../wallet'
+import {
+  assertIsBroadcastTxSuccess,
+  MsgUndelegateEncodeObject,
+  SigningStargateClient,
+} from '@cosmjs/stargate'
+import config from '../../config'
 
-export const undelegate = async (amount: number, toValidator: string) => {
-  const wallet = await setupWallet()
+// A message type auto-generated from .proto files using ts-proto. @cosmjs/stargate ships some
+// common types but don't rely on those being available. You need to set up your own code generator
+// for the types you care about. How this is done should be documented, but is not yet:
+// https://github.com/cosmos/cosmjs/issues/640
+import { MsgUndelegate } from '@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/tx'
+
+export const undelegate = async (amount: string, toValidator: string) => {
+  const wallet = await setupWallet('sif')
   const [firstAccount] = await wallet.getAccounts()
 
   const sender = firstAccount.address
 
-  const unsigned_txn = {
-    type: 'cosmos-sdk/MsgUndelegate',
-    value: {
-      delegator_address: sender,
-      validator_address: toValidator,
-      amount: coin(amount, 'rowan'),
+  const client = await SigningStargateClient.connectWithSigner(
+    config.sifRpc,
+    wallet
+  )
+
+  const msg: MsgUndelegate = {
+    delegatorAddress: sender,
+    validatorAddress: toValidator,
+    amount: {
+      denom: 'rowan',
+      amount,
     },
   }
+  const msgUnDelegate: MsgUndelegateEncodeObject = {
+    typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+    value: msg,
+  }
 
-  const client = new SigningCosmosClient(broadcastUrl, sender, wallet)
-  const txnStatus = await client.signAndBroadcast([unsigned_txn], fee)
-
-  return txnStatus
+  const result = await client.signAndBroadcast(
+    firstAccount.address,
+    [msgUnDelegate],
+    config.fee
+  )
+  await assertIsBroadcastTxSuccess(result)
+  return result
 }

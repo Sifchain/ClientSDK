@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "sifchain": ["./gen/api"] // This mapping is relative to "baseUrl"
+    }
   },
   "exclude": ["test"],
   "lib": ["es2015"]
