@@ -1,5 +1,5 @@
 import { SigningStargateClient } from '@cosmjs/stargate'
-import { setupWallet } from '../../wallet'
+import { setupWallet } from '../wallet'
 import {
   MsgRemoveLiquidity,
   MsgRemoveLiquidityResponse,
