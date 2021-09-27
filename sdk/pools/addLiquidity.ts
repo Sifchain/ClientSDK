@@ -1,5 +1,5 @@
 import { SigningStargateClient } from '@cosmjs/stargate'
-import { setupWallet } from '../../wallet'
+import { setupWallet } from '../wallet'
 import {
   MsgAddLiquidity,
   MsgAddLiquidityResponse,
@@ -19,8 +19,8 @@ type Asset = {
 
 export const addLiquidity = async (
   externalAsset: string,
-  externalAssetAmount: number,
-  nativeAssetAmount: number
+  externalAssetAmount: string,
+  nativeAssetAmount: string
 ) => {
   try {
     const wallet = await setupWallet('sif')
@@ -32,8 +32,8 @@ export const addLiquidity = async (
       value: {
         signer,
         externalAsset: { symbol: externalAsset },
-        nativeAssetAmount: `${nativeAssetAmount}`,
-        externalAssetAmount: `${externalAssetAmount}`,
+        nativeAssetAmount,
+        externalAssetAmount,
       },
     }
     const client = await SigningStargateClient.connectWithSigner(
