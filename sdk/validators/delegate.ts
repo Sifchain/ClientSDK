@@ -1,4 +1,4 @@
-import { setupWallet } from '../../wallet'
+import { setupWallet } from '../wallet'
 import {
   assertIsBroadcastTxSuccess,
   MsgDelegateEncodeObject,
