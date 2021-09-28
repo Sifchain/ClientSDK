@@ -1,5 +1,5 @@
-import config from '../../config'
-const ethTokens = require('../assets.sifchain.mainnet.json')
+import config from '../config'
+const ethTokens = require('assets.sifchain.mainnet.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))

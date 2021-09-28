@@ -1,6 +1,7 @@
 import { bridgeToken } from './smartContracts/contracts'
 import config from '../../config'
 import { ethWallet } from '../wallet'
+import { getWeb3 } from '../helpers'
 const web3 = getWeb3()
 
 export const approveSpend = async function (
