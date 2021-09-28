@@ -12,7 +12,9 @@ export const getWeb3 = function () {
 
 export const getERC20Token = function (symbol: string) {
   return ethTokens.find(
-    (token) => token.symbol === symbol && token.homeNetwork === 'ethereum'
+    (token) =>
+      token.symbol.toLowerCase() === symbol.toLowerCase() &&
+      token.address.startsWith('0x')
   )
 }
 
@@ -49,7 +51,7 @@ export const getDexEntryFromSymbol = async function (
   )
 }
 
-export const dexSymbols = async function () {
+export const getDexSymbols = async function () {
   const dex = await NativeDexClient.connect(config.sifRpc)
   const { entries } = (await dex.query.tokenregistry.Entries({})).registry
   return entries.map((e) => {

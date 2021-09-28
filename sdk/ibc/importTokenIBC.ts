@@ -4,29 +4,22 @@ import {
   MsgTransferEncodeObject,
 } from '@cosmjs/stargate'
 import { StdFee } from '@cosmjs/launchpad'
-import { NativeDexClient } from '../client'
 import * as IbcTransferV1Tx from '@cosmjs/stargate/build/codec/ibc/applications/transfer/v1/tx'
 import { setupWallet } from '../wallet'
 import chainsIBC from './chainsConfigIBC'
+import { getDexEntryFromSymbol, getDexSymbols } from '../helpers'
+
 
 export const importTokenIBC = async (symbol: string, amount: string) => {
-  // look up ibc denom and channel id from dex entries
-  const dex = await NativeDexClient.connect(config.sifRpc)
-  const { entries } = (await dex.query.tokenregistry.Entries({})).registry
-  // console.log({ entries }) // list of IBC tokens on the dex
-  const entry = entries.find(
-    (entry) => entry.baseDenom === symbol.toLocaleLowerCase()
-  )
+  const entry = await getDexEntryFromSymbol(symbol)
 
   if (!entry) {
-    console.log(
-      'Available tokens: ',
-      entries.map((e) => e.baseDenom)
-    )
+    console.log('Available tokens: ', await getDexSymbols())
     throw new Error(`Token "${symbol}" not found on dex.`)
   }
 
-  const { denom, ibcCounterpartyChannelId, ibcCounterpartyChainId } = entry
+  const { denom, baseDenom, ibcCounterpartyChannelId, ibcCounterpartyChainId } =
+    entry
   const ibcDenom = denom
 
   // get sender chain info
@@ -46,7 +39,8 @@ export const importTokenIBC = async (symbol: string, amount: string) => {
   const sender = senderFirstAccount.address
 
   // if symbol is native token to chain then use symbol denom else use ibcDenom
-  const tokenDenom = symbol === senderChain.nativeFeeToken ? symbol : ibcDenom
+  const tokenDenom =
+    baseDenom === senderChain.nativeFeeToken ? baseDenom : ibcDenom
 
   const unsignedTransferMsg: MsgTransferEncodeObject = {
     typeUrl: '/ibc.applications.transfer.v1.MsgTransfer',
