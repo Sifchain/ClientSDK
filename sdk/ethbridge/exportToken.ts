@@ -23,10 +23,12 @@ export const exportToken = async (symbol: string, amount: string) => {
   const cosmosSender = firstAccount.address
   const ethereumChainId = await web3.eth.net.getId()
   const cethAmount = '70000000000000000' //threshold cEthFee
+  const lowerCaseSymbol = symbol.toLowerCase()
+  const denom = lowerCaseSymbol === 'rowan' ? 'rowan' : `c${symbol}`
   const value = {
     cosmosSender,
     amount, // amount to send
-    symbol, // sif token e.g: ceth, rowan
+    symbol: denom, // sif token with c eth prefix e.g: ceth, rowan, cusdt
     ethereumChainId: new Long(ethereumChainId),
     ethereumReceiver: ethWallet.address,
     cethAmount,
@@ -40,7 +42,7 @@ export const exportToken = async (symbol: string, amount: string) => {
     value,
   }
   const unsignedTxn =
-    symbol.toLowerCase() === 'rowan' ? unsignedLockTxn : unsignedBurnTxn
+    lowerCaseSymbol === 'rowan' ? unsignedLockTxn : unsignedBurnTxn
 
   const client = await SigningStargateClient.connectWithSigner(
     config.sifRpc,
