@@ -8,6 +8,7 @@ import { bridgeBank } from './smartContracts/contracts'
 const web3 = getWeb3()
 
 export const importToken = async (symbol: string, amount: string) => {
+  const lowerCaseSymbol = symbol.toLowerCase()
   const sifWallet = await setupWallet('sif')
   const [sifAccount] = await sifWallet.getAccounts()
   const sifAddress = Web3.utils.utf8ToHex(sifAccount.address)
@@ -17,7 +18,7 @@ export const importToken = async (symbol: string, amount: string) => {
   let tx
 
   // ETH -> cETH
-  if (symbol.toLowerCase() === 'eth') {
+  if (lowerCaseSymbol === 'eth') {
     // lock
     tx = {
       nonce,
@@ -31,7 +32,7 @@ export const importToken = async (symbol: string, amount: string) => {
   }
 
   // eRowan -> Rowan
-  if (symbol.toLowerCase() === 'erowan') {
+  if (lowerCaseSymbol === 'erowan') {
     // approve and burn
     await approveSpend(ethWallet.address, amount, gas)
 
@@ -48,7 +49,7 @@ export const importToken = async (symbol: string, amount: string) => {
 
   // ERC20 -> cToken
   const erc20Token = getERC20Token(symbol)
-  if (erc20Token && symbol !== 'eth') {
+  if (erc20Token && lowerCaseSymbol !== 'eth' && lowerCaseSymbol !== 'erowan') {
     // approve and lock
     await approveSpend(ethWallet.address, amount, gas)
 
@@ -61,6 +62,12 @@ export const importToken = async (symbol: string, amount: string) => {
         .methods.lock(sifAddress, erc20Token.address, amount)
         .encodeABI(),
     }
+  }
+
+  if (!tx) {
+    throw new Error(
+      `Symbol "${symbol}" could not be found in ./assets.sifchain.mainnet.json with an ERC20 address.`
+    )
   }
 
   const signed = await web3.eth.accounts.signTransaction(
