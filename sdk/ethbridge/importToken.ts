@@ -1,7 +1,7 @@
 import { setupWallet, ethWallet } from '../wallet'
 import Web3 from 'web3'
 import config from '../../config'
-import { getERC20Token, getWeb3 } from './ethbridgeHelpers'
+import { getERC20Token, getWeb3 } from '../helpers'
 import { approveSpend } from './approveSpend'
 import { bridgeBank } from './smartContracts/contracts'
 

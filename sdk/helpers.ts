@@ -1,7 +1,7 @@
 import config from '../config'
 import { NativeDexClient } from './client'
 
-const ethTokens = require('./assets.sifchain.mainnet.json')
+const ethTokens = require('assets.sifchain.mainnet.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
