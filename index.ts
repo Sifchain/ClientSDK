@@ -1,12 +1,16 @@
-import { delegate } from './sdk/validators/delegate'
-import { undelegate } from './sdk/validators/undelegate'
-import { swap } from './sdk/pools/swap'
-import { importToken } from './sdk/ethbridge/importToken'
+// import { delegate } from './sdk/validators/delegate'
+// import { undelegate } from './sdk/validators/undelegate'
+// import { swap } from './sdk/pools/swap'
+// import { importToken } from './sdk/ethbridge/importToken'
+import { getDexSymbols } from './sdk/helpers'
 
 const start = async () => {
   console.log('Sifchain ClientSDK. Add application logic here.')
   //
   // *** Your logic here ***
+
+  console.log('Available tokens: ', await getDexSymbols())
+
   //
   //   const importTokenRes = await importToken('eth', '1000000000001')
   //   console.log({ importTokenRes })
