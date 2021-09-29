@@ -24,11 +24,16 @@ export const getDexEntryFromSymbol = async function (
   const lowerCaseSymbol = symbol.toLowerCase()
   let entries
   // if cashe is older than one day then get new entries else use cached entries
-  if (Date.now() > dexEntriesCache.timestamp + 1000 * 60 * 60 * 24) {
+  // or if rpc address config has been changed
+  if (
+    Date.now() > dexEntriesCache.timestamp + 1000 * 60 * 60 * 24 ||
+    dexEntriesCache.rpcAddress !== config.sifRpc
+  ) {
     const dex = await NativeDexClient.connect(config.sifRpc)
     entries = (await dex.query.tokenregistry.Entries({})).registry.entries
     const newDexEntries = {
       timestamp: Date.now(),
+      rpcAddress: config.sifRpc,
       entries,
     }
     console.log('Writing new Dex entries cache.')
@@ -59,6 +64,7 @@ export const getDexEntryFromSymbol = async function (
   if (lowerCaseSymbol === 'basecro') {
     return entries.find((entry) => entry.baseDenom === 'basecro')
   }
+
   entry = entries.find(
     (entry) =>
       entry.baseDenom === `c${lowerCaseSymbol}` ||
