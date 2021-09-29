@@ -6,7 +6,7 @@ const sifAPI = new PoolsApi(config.apiConfig)
 
 describe('test addLiquidity feature', () => {
   it('should add liquidity', async function () {
-    const res = await addLiquidity('ceth', '50', '100')
+    const res = await addLiquidity('eth', '50', '100')
 
     expect(res).toHaveProperty('rawLog')
     expect(res).toHaveProperty('gasUsed')
