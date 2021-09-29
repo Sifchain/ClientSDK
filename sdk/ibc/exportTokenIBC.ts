@@ -9,16 +9,9 @@ import chainsIBC from './chainsConfigIBC'
 import { getDexEntryFromSymbol, getDexSymbols } from '../helpers'
 
 export const exportTokenIBC = async (symbol: string, amount: string) => {
-
   const entry = await getDexEntryFromSymbol(symbol)
-
-  if (!entry) {
-    console.log('Available tokens: ', await getDexSymbols())
-    throw new Error(`Token "${symbol}" not found on dex.`)
-  }
-
   const { denom, ibcChannelId, ibcCounterpartyChainId } = entry
-  
+
   if (!denom.startsWith('ibc') && denom !== 'rowan') {
     throw new Error(`Token "${symbol}" not a IBC token.`)
   }

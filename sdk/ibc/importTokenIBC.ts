@@ -12,12 +12,6 @@ import { getDexEntryFromSymbol, getDexSymbols } from '../helpers'
 
 export const importTokenIBC = async (symbol: string, amount: string) => {
   const entry = await getDexEntryFromSymbol(symbol)
-
-  if (!entry) {
-    console.log('Available tokens: ', await getDexSymbols())
-    throw new Error(`Token "${symbol}" not found on dex.`)
-  }
-
   const { denom, baseDenom, ibcCounterpartyChannelId, ibcCounterpartyChainId } =
     entry
   const ibcDenom = denom

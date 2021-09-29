@@ -42,8 +42,18 @@ export const getDexEntryFromSymbol = async function (
     console.log('Using cached Dex entries.')
     entries = dexEntriesCache.entries
   }
+
+  let entry
+
   if (isExportToCosmos) {
-    return entries.find((entry) => entry.baseDenom === `x${lowerCaseSymbol}`)
+    entry = entries.find((entry) => entry.baseDenom === `x${lowerCaseSymbol}`)
+
+    if (!entry) {
+      console.log('Available tokens: ', await this.getDexSymbols())
+      throw new Error(`Token "${symbol}" not found on dex.`)
+    }
+
+    return entry
   }
   if (lowerCaseSymbol === 'rowan') {
     return entries.find((entry) => entry.baseDenom === 'rowan')
@@ -51,11 +61,18 @@ export const getDexEntryFromSymbol = async function (
   if (lowerCaseSymbol === 'basecro') {
     return entries.find((entry) => entry.baseDenom === 'basecro')
   }
-  return entries.find(
+  entry = entries.find(
     (entry) =>
       entry.baseDenom === `c${lowerCaseSymbol}` ||
       entry.baseDenom === `u${lowerCaseSymbol}`
   )
+
+  if (!entry) {
+    console.log('Available tokens: ', await this.getDexSymbols())
+    throw new Error(`Token "${symbol}" not found on dex.`)
+  }
+
+  return entry
 }
 
 export const getDexSymbols = async function () {
