@@ -4,7 +4,7 @@ import { SigningStargateClient } from '@cosmjs/stargate'
 import { exportTokenIBC } from '../../sdk/ibc/exportTokenIBC'
 
 describe('test ibc export feature', () => {
-  it('should export ibc test token uphoton', async () => {
+  it('should export ibc test token photon', async () => {
     try {
       const sifWallet = await setupWallet('sif')
       const [{ address }] = await sifWallet.getAccounts()
@@ -16,11 +16,11 @@ describe('test ibc export feature', () => {
 
       const amount = '202'
       const ibcDenom =
-        'ibc/4BFA1CE7B80A9A830F8E164495276CCD9E9B5424951749ED92F80B394E8C91C8' //uphoton
+        'ibc/4BFA1CE7B80A9A830F8E164495276CCD9E9B5424951749ED92F80B394E8C91C8' //photon
 
       const balancesBefore = (await client.getBalance(address, ibcDenom)).amount
 
-      const res = await exportTokenIBC('uphoton', amount)
+      const res = await exportTokenIBC('photon', amount)
       console.log({ res })
 
       expect(res).toHaveProperty('rawLog')
