@@ -66,7 +66,7 @@ export const importToken = async (symbol: string, amount: string) => {
 
   if (!tx) {
     throw new Error(
-      `Symbol "${symbol}" could not be found in ./assets.sifchain.mainnet.json with an ERC20 address.`
+      `Symbol "${symbol}" could not be found in ./erc20TokenAddresses.json with an ERC20 address.`
     )
   }
 

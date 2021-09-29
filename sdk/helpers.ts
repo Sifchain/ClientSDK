@@ -1,7 +1,7 @@
 import config from '../config'
 import { NativeDexClient } from './client'
 import { promises as fs } from 'fs'
-const ethTokens = require('./assets.sifchain.mainnet.json')
+const ethTokens = require('./erc20TokenAddresses.json')
 const dexEntriesCache = require('./dexEntriesCache.json')
 
 import Web3 from 'web3'
@@ -13,9 +13,7 @@ export const getWeb3 = function () {
 
 export const getERC20Token = function (symbol: string) {
   return ethTokens.find(
-    (token) =>
-      token.symbol.toLowerCase() === symbol.toLowerCase() &&
-      token.address.startsWith('0x')
+    (token) => token.symbol.toLowerCase() === symbol.toLowerCase()
   )
 }
 
