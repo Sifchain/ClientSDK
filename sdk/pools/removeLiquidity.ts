@@ -7,6 +7,7 @@ import {
 import { NativeDexClient } from '../client'
 import { Registry } from '@cosmjs/proto-signing'
 import config from '../../config'
+import { getDexEntryFromSymbol } from '../helpers'
 
 type MsgRemoveLiquidityEncodeObject = {
   typeUrl: string
@@ -18,11 +19,13 @@ type Asset = {
 }
 
 export const removeLiquidity = async (
-  externalAsset: string,
+  externalAssetSymbol: string,
   wBasisPoints: string,
   asymmetry: string
 ) => {
   try {
+    const { denom } = await getDexEntryFromSymbol(externalAssetSymbol)
+
     const wallet = await setupWallet('sif')
     const [firstAccount] = await wallet.getAccounts()
     const signer = firstAccount.address
@@ -31,7 +34,7 @@ export const removeLiquidity = async (
       typeUrl: '/sifnode.clp.v1.MsgRemoveLiquidity',
       value: {
         signer,
-        externalAsset: { symbol: externalAsset },
+        externalAsset: { symbol: denom },
         wBasisPoints,
         asymmetry,
       },

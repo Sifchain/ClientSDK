@@ -4,6 +4,7 @@ import { NativeDexClient } from '../client'
 import { setupWallet } from '../wallet'
 import { MsgSwap } from '../generated/proto/sifnode/clp/v1/tx'
 import config from '../../config'
+import { getDexEntryFromSymbol } from '../helpers'
 
 type MsgSwapEncodeObject = {
   typeUrl: string
@@ -15,28 +16,32 @@ type Asset = {
 }
 
 export const swap = async (
-  sentAsset: string,
-  receivedAsset: string,
+  sentAssetSymbol: string,
+  receivedAssetSymbol: string,
   sentAmount: string,
   minReceivingAmount: string
 ) => {
   try {
+    const [sentAssetEntry, receivedAssetEntry] = await Promise.all([
+      getDexEntryFromSymbol(sentAssetSymbol),
+      getDexEntryFromSymbol(receivedAssetSymbol),
+    ])
+
     const wallet = await setupWallet('sif')
     const [firstAccount] = await wallet.getAccounts()
-
     const signer = firstAccount.address
 
     const unsigned_txn: MsgSwapEncodeObject = {
       typeUrl: '/sifnode.clp.v1.MsgSwap',
       value: {
         sentAsset: {
-          symbol: sentAsset,
+          symbol: sentAssetEntry.denom,
         },
         receivedAsset: {
-          symbol: receivedAsset,
+          symbol: receivedAssetEntry.denom,
         },
-        sentAmount: `${sentAmount}`,
-        minReceivingAmount: `${minReceivingAmount}`,
+        sentAmount,
+        minReceivingAmount,
         signer,
       },
     }
