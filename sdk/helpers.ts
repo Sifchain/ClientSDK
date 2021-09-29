@@ -1,7 +1,8 @@
 import config from '../config'
 import { NativeDexClient } from './client'
-
-const ethTokens = require('assets.sifchain.mainnet.json')
+import { promises as fs } from 'fs'
+const ethTokens = require('./assets.sifchain.mainnet.json')
+const dexEntriesCache = require('./dexEntriesCache.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
@@ -23,27 +24,33 @@ export const getDexEntryFromSymbol = async function (
   isExportToCosmos: boolean = false
 ) {
   const lowerCaseSymbol = symbol.toLowerCase()
-  // cache dex entries lookup
   let entries
-  if (!entries) {
+  // if cashe is older than one day then get new entries else use cached entries
+  if (Date.now() > dexEntriesCache.timestamp + 1000 * 60 * 60 * 24) {
     const dex = await NativeDexClient.connect(config.sifRpc)
     entries = (await dex.query.tokenregistry.Entries({})).registry.entries
+    const newDexEntries = {
+      timestamp: Date.now(),
+      entries,
+    }
+    console.log('Writing new Dex entries cache.')
+    await fs.writeFile(
+      `${__dirname}/dexEntriesCache.json`,
+      JSON.stringify(newDexEntries, null, 2)
+    )
   } else {
     console.log('Using cached Dex entries.')
+    entries = dexEntriesCache.entries
   }
-
   if (isExportToCosmos) {
     return entries.find((entry) => entry.baseDenom === `x${lowerCaseSymbol}`)
   }
-
   if (lowerCaseSymbol === 'rowan') {
     return entries.find((entry) => entry.baseDenom === 'rowan')
   }
-
   if (lowerCaseSymbol === 'basecro') {
     return entries.find((entry) => entry.baseDenom === 'basecro')
   }
-
   return entries.find(
     (entry) =>
       entry.baseDenom === `c${lowerCaseSymbol}` ||
