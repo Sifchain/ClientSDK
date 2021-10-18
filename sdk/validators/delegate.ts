@@ -12,7 +12,7 @@ import config from '../../config'
 // https://github.com/cosmos/cosmjs/issues/640
 import { MsgDelegate } from '@cosmjs/stargate/build/codec/cosmos/staking/v1beta1/tx'
 
-export const delegate = async (amount: string, toValidator: string) => {
+export const delegate = async (amount: string, validatorAddress: string) => {
   const wallet = await setupWallet('sif')
   const [firstAccount] = await wallet.getAccounts()
 
@@ -25,7 +25,7 @@ export const delegate = async (amount: string, toValidator: string) => {
 
   const msg: MsgDelegate = {
     delegatorAddress: sender,
-    validatorAddress: toValidator,
+    validatorAddress,
     amount: {
       denom: 'rowan',
       amount,

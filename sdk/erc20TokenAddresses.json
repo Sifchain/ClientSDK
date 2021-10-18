@@ -1,0 +1,287 @@
+[
+  {
+    "symbol": "erowan",
+    "name": "Rowan",
+    "address": "0x07bac35846e5ed502aa91adf6a9e7aa210f2dcbe"
+  },
+  {
+    "address": "0x0000000000000000000000000000000000000000",
+    "name": "Ethereum",
+    "symbol": "eth"
+  },
+  {
+    "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    "name": "Tether USDT",
+    "symbol": "USDT"
+  },
+  {
+    "address": "0x0d8775f648430679a709e98d2b0cb6250d2887ef",
+    "name": "Basic Attention Token",
+    "symbol": "BAT"
+  },
+  {
+    "address": "0xa117000000f279d81a1d3cc75430faa017fa5a2e",
+    "name": "Aragon",
+    "symbol": "ANT"
+  },
+  {
+    "address": "0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c",
+    "name": "Bancor Network Token",
+    "symbol": "BNT"
+  },
+  {
+    "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+    "name": "0x",
+    "symbol": "ZRX"
+  },
+  {
+    "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+    "name": "Chainlink",
+    "symbol": "LINK"
+  },
+  {
+    "address": "0x0f5d2fb29fb7d3cfee444a200298f468908cc942",
+    "name": "Decentraland",
+    "symbol": "MANA"
+  },
+  {
+    "address": "0xbbbbca6a901c926f240b89eacb641d8aec7aeafd",
+    "name": "Loopring",
+    "symbol": "LRC"
+  },
+  {
+    "address": "0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c",
+    "name": "Enjin Coin",
+    "symbol": "ENJ"
+  },
+  {
+    "address": "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
+    "name": "Synthetix Network Token",
+    "symbol": "SNX"
+  },
+  {
+    "address": "0x0000000000085d4780b73119b644ae5ecd22b376",
+    "name": "TrueUSD",
+    "symbol": "TUSD"
+  },
+  {
+    "address": "0x967da4048cd07ab37855c090aaf366e4ce1b9f48",
+    "name": "Ocean Protocol",
+    "symbol": "OCEAN"
+  },
+  {
+    "address": "0x4e15361fd6b4bb609fa63c81a2be19d873717870",
+    "name": "Fantom",
+    "symbol": "FTM"
+  },
+  {
+    "address": "0x57ab1ec28d129707052df4df418d58a2d46d5f51",
+    "name": "sUSD",
+    "symbol": "SUSD"
+  },
+  {
+    "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "name": "USD Coin",
+    "symbol": "USDC"
+  },
+  {
+    "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+    "name": "Wrapped Bitcoin",
+    "symbol": "WBTC"
+  },
+  {
+    "address": "0x8ce9137d39326ad0cd6491fb5cc0cba0e089b6a9",
+    "name": "Swipe",
+    "symbol": "SXP"
+  },
+  {
+    "address": "0xba11d00c5f74255f56a5e366f4f77f5a186d7f55",
+    "name": "Band Protocol",
+    "symbol": "BAND"
+  },
+  {
+    "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+    "name": "Dai Stablecoin",
+    "symbol": "DAI"
+  },
+  {
+    "address": "0xc00e94cb662c3520282e6f5717214004a7f26888",
+    "name": "Compound",
+    "symbol": "COMP"
+  },
+  {
+    "address": "0x04fa0d235c4abf4bcf4787af4cf447de572ef828",
+    "name": "UMA",
+    "symbol": "UMA"
+  },
+  {
+    "address": "0xba100000625a3754423978a60c9317c58a424e3d",
+    "name": "Balancer",
+    "symbol": "BAL"
+  },
+  {
+    "address": "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
+    "name": "yearn finance",
+    "symbol": "YFI"
+  },
+  {
+    "address": "0x476c5e26a75bd202a9683ffd34359c0cc15be0ff",
+    "name": "Serum",
+    "symbol": "SRM"
+  },
+  {
+    "address": "0x2ba592f78db6436527729929aaf6c908497cb200",
+    "name": "Cream",
+    "symbol": "CREAM"
+  },
+  {
+    "address": "0x3845badade8e6dff049820680d1f14bd3903a5d0",
+    "name": "SAND",
+    "symbol": "SAND"
+  },
+  {
+    "address": "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
+    "name": "Sushi",
+    "symbol": "SUSHI"
+  },
+  {
+    "address": "0x36f3fd68e7325a35eb768f1aedaae9ea0689d723",
+    "name": "Empty Set Dollar",
+    "symbol": "ESD"
+  },
+  {
+    "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+    "name": "Uniswap",
+    "symbol": "UNI"
+  },
+  {
+    "address": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+    "name": "Aave",
+    "symbol": "AAVE"
+  },
+  {
+    "address": "0x0391d2021f89dc339f60fff84546ea23e337750f",
+    "name": "BarnBridge",
+    "symbol": "BOND"
+  },
+  {
+    "address": "0x6e1a19f235be7ed8e3369ef73b196c07257494de",
+    "name": "Wrapped Filecoin",
+    "symbol": "WFIL"
+  },
+  {
+    "address": "0xc944e90c64b2c07662a292be6244bdf05cda44a7",
+    "name": "The Graph",
+    "symbol": "GRT"
+  },
+  {
+    "address": "0x0000000000095413afc295d19edeb1ad7b71c952",
+    "name": "Tokenlon",
+    "symbol": "LON"
+  },
+  {
+    "address": "0x111111111117dc0aa78b770fa6a738034120c302",
+    "name": "1inch",
+    "symbol": "1INCH"
+  },
+  {
+    "address": "0x3155ba85d5f96b2d030a4966af206230e46849cb",
+    "name": "THORChain ERC20",
+    "symbol": "RUNE"
+  },
+  {
+    "address": "0x2b89bf8ba858cd2fcee1fada378d5cd6936968be",
+    "name": "Secret ERC20 ",
+    "symbol": "WSCRT"
+  },
+  {
+    "address": "0x6fb3e0a217407efff7ca062d46c26e5d60a14d69",
+    "name": "IoTeX",
+    "symbol": "IOTX"
+  },
+  {
+    "address": "0xfe3e6a25e6b192a42a44ecddcd13796471735acf",
+    "name": "Reef Finance",
+    "symbol": "REEF"
+  },
+  {
+    "address": "0xc4c7ea4fab34bd9fb9a5e1b1a98df76e26e6407c",
+    "name": "COCOS BCX",
+    "symbol": "cocos"
+  },
+  {
+    "address": "0x85eee30c52b0b379b046fb0f85f4f3dc3009afec",
+    "name": "Keep Network",
+    "symbol": "keep"
+  },
+  {
+    "address": "0x8207c1ffc5b6804f6024322ccf34f29c3541ae26",
+    "name": "Origin Protocol",
+    "symbol": "ogn"
+  },
+  {
+    "address": "0xd82bb924a1707950903e2c0a619824024e254cd1",
+    "name": "DAOfi",
+    "symbol": "daofi"
+  },
+  {
+    "address": "0x3e9bc21c9b189c09df3ef1b824798658d5011937",
+    "name": "Linear",
+    "symbol": "lina"
+  },
+  {
+    "address": "0x525794473f7ab5715c81d06d10f52d11cc052804",
+    "name": "12Ships",
+    "symbol": "tshp"
+  },
+  {
+    "address": "0xc4de189abf94c57f396bd4c52ab13b954febefd8",
+    "name": "B.20",
+    "symbol": "b20"
+  },
+  {
+    "address": "0x8ab7404063ec4dbcfd4598215992dc3f8ec853d7",
+    "name": "Akropolis",
+    "symbol": "akro"
+  },
+  {
+    "address": "0xaf9f549774ecedbd0966c52f250acc548d3f36e5",
+    "name": "Rio Fuel Token",
+    "symbol": "rfuel"
+  },
+  {
+    "address": "0xf1f955016ecbcd7321c7266bccfb96c68ea5e49b",
+    "name": "Rally",
+    "symbol": "rly"
+  },
+  {
+    "address": "0xc834fa996fa3bec7aad3693af486ae53d8aa8b50",
+    "name": "Convergence",
+    "symbol": "conv"
+  },
+  {
+    "address": "0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24",
+    "name": "Render Token",
+    "symbol": "rndr"
+  },
+  {
+    "address": "0x1614f18fc94f47967a3fbe5ffcd46d4e7da3d787",
+    "name": "PAID Network",
+    "symbol": "paid"
+  },
+  {
+    "address": "0x29cbd0510eec0327992cd6006e63f9fa8e7f33b7",
+    "name": "Tidal",
+    "symbol": "tidal"
+  },
+  {
+    "address": "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce",
+    "name": "SHIBA INU",
+    "symbol": "SHIB"
+  },
+  {
+    "address": "0x27c70cd1946795b66be9d954418546998b546634",
+    "name": "DOGE KILLER",
+    "symbol": "LEASH"
+  }
+]

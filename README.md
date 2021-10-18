@@ -171,7 +171,7 @@ main()
 
 Import and Export ERC20 tokens from sifchain to ethereum and back.
 
-Be sure to check the fee and gas is set to your preference in the `config.ts` file and the hard coded values in the `exportToken` and `importToken` function bodies. All available tokens along with corresponding symbols are found in the `sdk/assets.sifchain.mainnet.json` file. The assets in this file with `homeNetwork` equal to `"ethereum"` are ERC20 tokens. 
+Be sure to check the fee and gas is set to your preference in the `config.ts` file and the hard coded values in the `exportToken` and `importToken` function bodies. ERC20 token addresses are found in the `sdk/ethbridge/erc20TokenAddresses.json` file. Double check these are the correct ERC20 addresses.
 
 #### Import Eth or ERC20 tokens from Ethereum to Sifchain
 

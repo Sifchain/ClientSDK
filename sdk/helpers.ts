@@ -1,5 +1,8 @@
 import config from '../config'
-const ethTokens = require('assets.sifchain.mainnet.json')
+import { NativeDexClient } from './client'
+import { promises as fs } from 'fs'
+const ethTokens = require('./erc20TokenAddresses.json')
+const dexEntriesCache = require('./dexEntriesCache.json')
 
 import Web3 from 'web3'
 const web3 = new Web3(new Web3.providers.HttpProvider(config.ethnode))
@@ -10,6 +13,78 @@ export const getWeb3 = function () {
 
 export const getERC20Token = function (symbol: string) {
   return ethTokens.find(
-    (token) => token.symbol === symbol && token.homeNetwork === 'ethereum'
+    (token) => token.symbol.toLowerCase() === symbol.toLowerCase()
   )
+}
+
+export const getDexEntryFromSymbol = async function (
+  symbol: string,
+  isExportToCosmos: boolean = false
+) {
+  const lowerCaseSymbol = symbol.toLowerCase()
+  let entries
+  // if cashe is older than one day then get new entries else use cached entries
+  // or if rpc address config has been changed
+  if (
+    Date.now() > dexEntriesCache.timestamp + 1000 * 60 * 60 * 24 ||
+    dexEntriesCache.rpcAddress !== config.sifRpc
+  ) {
+    const dex = await NativeDexClient.connect(config.sifRpc)
+    entries = (await dex.query.tokenregistry.Entries({})).registry.entries
+    const newDexEntries = {
+      timestamp: Date.now(),
+      rpcAddress: config.sifRpc,
+      entries,
+    }
+    console.log('Writing new Dex entries cache.')
+    await fs.writeFile(
+      `${__dirname}/dexEntriesCache.json`,
+      JSON.stringify(newDexEntries, null, 2)
+    )
+  } else {
+    console.log('Using cached Dex entries.')
+    entries = dexEntriesCache.entries
+  }
+
+  let entry
+
+  if (isExportToCosmos) {
+    entry = entries.find((entry) => entry.baseDenom === `x${lowerCaseSymbol}`)
+
+    if (!entry) {
+      console.log('Available tokens: ', await this.getDexSymbols())
+      throw new Error(`Token "${symbol}" not found on dex.`)
+    }
+
+    return entry
+  }
+  if (lowerCaseSymbol === 'rowan') {
+    return entries.find((entry) => entry.baseDenom === 'rowan')
+  }
+  if (lowerCaseSymbol === 'basecro') {
+    return entries.find((entry) => entry.baseDenom === 'basecro')
+  }
+
+  entry = entries.find(
+    (entry) =>
+      entry.baseDenom === `c${lowerCaseSymbol}` ||
+      entry.baseDenom === `u${lowerCaseSymbol}`
+  )
+
+  if (!entry) {
+    console.log('Available tokens: ', await this.getDexSymbols())
+    throw new Error(`Token "${symbol}" not found on dex.`)
+  }
+
+  return entry
+}
+
+export const getDexSymbols = async function () {
+  const dex = await NativeDexClient.connect(config.sifRpc)
+  const { entries } = (await dex.query.tokenregistry.Entries({})).registry
+  return entries.map((e) => {
+    if (e.baseDenom === 'rowan') return e.baseDenom
+    if (e.baseDenom === 'basecro') return e.baseDenom
+    return e.baseDenom.substring(1)
+  })
 }
