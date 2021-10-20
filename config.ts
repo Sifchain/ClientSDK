@@ -36,4 +36,8 @@ export default {
 
   timeoutTimestampNanoseconds,
   fee,
+
+  exportEthbridgeCethThresholdFee: '70000000000000000', //unique cEth threshold fee that is only used when exporting eth/erc20 tokens.
+  // importEthbridgeGas: (await web3.eth.getBlock('latest')).gasLimit
+  importEthbridgeGas: 300000,
 }

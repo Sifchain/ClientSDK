@@ -18,7 +18,7 @@ Sifchain SDK leverages an openapi 3.0 swagger file to auto-generate function stu
 2. Pull the latest published openapi spec and generates the new function stubs.
    `npm run nuke-api`
 
-Once you have generated the stubs, you can test out each modules transaction functionality. In order to enable transaction signing, you create a `.env` file using the `sample.env` template and provide the wallet mnemonics, and Infura details. Next check the `config.ts` file is using the correct sifnode URL and RPC addresses to broadcast transactions to.
+Once you have generated the stubs, you can test out each modules transaction functionality. In order to enable transaction signing, you create a `.env` file using the `sample.env` template and provide the wallet mnemonics, and Infura details. Next check the `config.ts` file is using the correct sifnode URL and RPC addresses to broadcast transactions to and set the fee and gas prices that you wish to use. 
 
 It is the users responsibility to ensure that your transactions are being broadcast to a safe and non-malicious node operator.
 
@@ -27,7 +27,7 @@ It is the users responsibility to ensure that your transactions are being broadc
 
 ## Tests
 
-The tests in the `/test` directory will run most of the available methods.
+The tests in the `/test` directory will run most of the available methods. Tests will not work unless you set up some test wallets and change the config.ts files to point to testnets. But the test files are a good place to look to see how each method is used.
 
 ## Available Generated API methods
 
@@ -171,7 +171,7 @@ main()
 
 Import and Export ERC20 tokens from sifchain to ethereum and back.
 
-Be sure to check the fee and gas is set to your preference in the `config.ts` file and the hard coded values in the `exportToken` and `importToken` function bodies. All available tokens along with corresponding symbols are found in the `sdk/assets.sifchain.mainnet.json` file. The assets in this file with `homeNetwork` equal to `"ethereum"` are ERC20 tokens. 
+Be sure to check the fee and gas is set to your preference in the `config.ts` file. All available tokens along with corresponding symbols are found in the `sdk/assets.sifchain.mainnet.json` file. 
 
 #### Import Eth or ERC20 tokens from Ethereum to Sifchain
 
@@ -200,7 +200,7 @@ main()
 
 Import and Export tokens from and to sifchain and other chains on the Cosmos netowrk.
 
-Edit the IBC chains config file at `sdk/ibc/chainsConfigIBC.ts` to set the desired `walletMnemonic`, `gas`, and `nativeFee` for each chain you will be transfering tokens to/from. 
+Edit the IBC chains config file at `sdk/ibc/chainsConfigIBC.ts` to set the desired `walletMnemonic`, `gas`, and `nativeFee` for each chain you will be transfering tokens to/from.
 
 #### Import tokens from an External Cosmos chain to Sifchain
 

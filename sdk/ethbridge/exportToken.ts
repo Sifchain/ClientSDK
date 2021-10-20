@@ -22,14 +22,13 @@ export const exportToken = async (symbol: string, amount: string) => {
   const [firstAccount] = await wallet.getAccounts()
   const cosmosSender = firstAccount.address
   const ethereumChainId = await web3.eth.net.getId()
-  const cethAmount = '70000000000000000' //threshold cEthFee
   const value = {
     cosmosSender,
     amount, // amount to send
     symbol, // sif token e.g: ceth, rowan
     ethereumChainId: new Long(ethereumChainId),
     ethereumReceiver: ethWallet.address,
-    cethAmount,
+    cethAmount: config.exportEthbridgeCethThresholdFee,
   }
   const unsignedLockTxn: MsgLockEncodeObject = {
     typeUrl: `/sifnode.ethbridge.v1.MsgLock`,

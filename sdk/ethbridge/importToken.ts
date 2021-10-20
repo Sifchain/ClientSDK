@@ -13,7 +13,7 @@ export const importToken = async (symbol: string, amount: string) => {
   const [sifAccount] = await sifWallet.getAccounts()
   const sifAddress = Web3.utils.utf8ToHex(sifAccount.address)
 
-  const gas = (await web3.eth.getBlock('latest')).gasLimit // 150000
+  const gas = config.importEthbridgeGas
   const nonce = (await web3.eth.getTransactionCount(ethWallet.address)) + 1
   let tx
 
