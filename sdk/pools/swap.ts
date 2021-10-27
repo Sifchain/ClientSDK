@@ -1,7 +1,7 @@
 import { Registry } from '@cosmjs/proto-signing'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import { NativeDexClient } from '../client'
-import { setupWallet } from '../wallet'
+import { setupWallet } from '../../wallet'
 import { MsgSwap } from '../generated/proto/sifnode/clp/v1/tx'
 import config from '../../config'
 

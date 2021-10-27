@@ -2,6 +2,8 @@ import { delegate } from './sdk/validators/delegate'
 import { undelegate } from './sdk/validators/undelegate'
 import { swap } from './sdk/pools/swap'
 import { importToken } from './sdk/ethbridge/importToken'
+import * as dotenv from 'dotenv'
+dotenv.config({ path: __dirname + '/.env' })
 
 const start = async () => {
   console.log('Sifchain ClientSDK. Add application logic here.')

@@ -1,6 +1,6 @@
 import { addLiquidity } from '../../sdk/pools/addLiquidity'
 import config from '../../config'
-import { setupWallet } from '../../sdk/wallet'
+import { setupWallet } from '../../wallet'
 import { PoolsApi } from 'sifchain'
 const sifAPI = new PoolsApi(config.apiConfig)
 

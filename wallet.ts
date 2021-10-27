@@ -1,10 +1,7 @@
 import { DirectSecp256k1HdWallet, coins } from '@cosmjs/proto-signing'
 import { ethers } from 'ethers'
-import config from '../config'
-
 import * as dotenv from 'dotenv'
-
-dotenv.config({ path: __dirname + '/../.env' })
+dotenv.config({ path: __dirname + '/.env' })
 
 // using ethers here instead because Web3 doesn't have any way to generate wallets via mnemonics
 export const ethWallet = ethers.Wallet.fromMnemonic(process.env.ETH_MNEMONIC)
