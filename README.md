@@ -1,3 +1,6 @@
+# ⚠️ ⚠️ ⚠️ DEPRECATED ⚠️ ⚠️ ⚠️ 
+# please refer to [@sifchain/sdk](https://github.com/Sifchain/sifchain-ui/blob/develop/ui/core/)
+
 # Sifchain SDK
 
 A package of client software for developing client applications that connect to the [Sifchain](https://sifchain.finance/) software stack and enables you to query state or perform transactions without requiring a full installation of sifnode or browser.
