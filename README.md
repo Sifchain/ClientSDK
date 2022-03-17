@@ -21,7 +21,7 @@ Sifchain SDK leverages an openapi 3.0 swagger file to auto-generate function stu
 2. Pull the latest published openapi spec and generates the new function stubs.
    `npm run nuke-api`
 
-Once you have generated the stubs, you can test out each modules transaction functionality. In order to enable transaction signing, you create a `.env` file using the `sample.env` template and provide the wallet mnemonics, and Infura details. Next check the `config.ts` file is using the correct sifnode URL and RPC addresses to broadcast transactions to and set the fee and gas prices that you wish to use. 
+Once you have generated the stubs, you can test out each modules transaction functionality. In order to enable transaction signing, you create a `.env` file using the `sample.env` template and provide the wallet mnemonics, and Infura details. Next check the `config.ts` file is using the correct sifnode URL and RPC addresses to broadcast transactions to and set the fee and gas prices that you wish to use. TestNet endpoints can be found [here](https://github.com/Sifchain/networks/blob/master/testnet/sifchain-testnet-1/README.md).
 
 It is the users responsibility to ensure that your transactions are being broadcast to a safe and non-malicious node operator.
 
