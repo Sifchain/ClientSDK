@@ -1,5 +1,5 @@
 # ⚠️ ⚠️ ⚠️ DEPRECATED ⚠️ ⚠️ ⚠️ 
-# please refer to [@sifchain/sdk](https://github.com/Sifchain/sifchain-ui/blob/develop/ui/core/)
+# please refer to [@sifchain/sdk](https://github.com/Sifchain/sifchain-ui/blob/develop/core/)
 
 # Sifchain SDK
 
